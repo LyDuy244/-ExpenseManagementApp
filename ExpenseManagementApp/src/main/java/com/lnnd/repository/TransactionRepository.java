@@ -16,4 +16,6 @@ public interface TransactionRepository {
     List<Transaction> getTransactions(Map<String, String> params, int pageSize);
     Long countTransaction();
     boolean addOrUpdateTransaction(Transaction t);
+    Transaction getTransactionById(int id);
+    List<Transaction> getAllTransactionsByUserId(int userId, Map<String, String> params, int pageSize);
 }

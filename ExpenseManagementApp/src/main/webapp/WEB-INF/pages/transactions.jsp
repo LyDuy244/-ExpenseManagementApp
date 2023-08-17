@@ -41,14 +41,15 @@
                     <td>${transaction.description}</td>
                     <td>${transaction.amount}</td>
                     <td>${transaction.createdDate}</td>
-                    <td>
-                        <a href="#" class="btn btn-success" >Cập nhật</a>
+                    <td style="display: flex; justify-content: space-around;">
+                        <a href="<c:url value="/transactions/${transaction.id}" />" class="btn btn-success" >Cập nhật</a>
                         <button class ="btn btn-danger">Xóa</button>
                     </td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
+    <h1>${user}</h1>
 
     <h1>Đây là: ${pagesize}</h1>
 
@@ -66,5 +67,5 @@
                 </c:forEach>
         </ul>
     </c:if>
-
+    
 </section>

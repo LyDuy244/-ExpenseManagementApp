@@ -119,7 +119,7 @@ public class User implements Serializable {
     private MultipartFile file;
     @Transient
     private String confirmPassword;
-
+    
     public User() {
     }
 
@@ -317,5 +317,5 @@ public class User implements Serializable {
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
-
+    
 }

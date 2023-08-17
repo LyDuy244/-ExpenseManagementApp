@@ -6,12 +6,15 @@ package com.lnnd.controllers;
 
 import com.lnnd.pojo.Transaction;
 import com.lnnd.service.TransactionService;
+import com.lnnd.service.impl.MyUserDetails;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,7 +32,8 @@ public class TransactionController {
 
     @GetMapping("/transactions")
     public String list(Model model, @RequestParam Map<String, String> params,
-            @RequestParam(name = "ps", defaultValue = "10") String ps) {
+            @RequestParam(name = "ps", defaultValue = "10") String ps,
+            @AuthenticationPrincipal MyUserDetails user) {
 
 //        int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
         String size = params.get("ps");
@@ -39,8 +43,7 @@ public class TransactionController {
         Long count = this.tranSer.countTransaction();
         model.addAttribute("counter", Math.ceil(count * 1.0 / pageSize));
         model.addAttribute("pagesize", size);
-        model.addAttribute("transactions", this.tranSer.getTransactions(params, pageSize));
-
+        model.addAttribute("transactions", this.tranSer.getAllTransactionsByUserId(user.getId(),params, pageSize));
         return "transactions";
     }
 
@@ -55,6 +58,12 @@ public class TransactionController {
         if (tranSer.addOrUpdateTransaction(t) == true) {
             return "redirect:/transactions";
         }
+        return "addTransaction";
+    }
+    
+    @GetMapping("/transactions/{id}")
+    public String update(Model model, @PathVariable(value = "id") int id)  {
+        model.addAttribute("transaction", this.tranSer.getTransactionById(id));
         return "addTransaction";
     }
 }

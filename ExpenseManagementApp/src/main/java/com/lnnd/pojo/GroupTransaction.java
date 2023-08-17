@@ -23,12 +23,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ADMIN
  */
 @Entity
-@Table(name = "plan_detail")
+@Table(name = "group_transaction")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PlanDetail.findAll", query = "SELECT p FROM PlanDetail p"),
-    @NamedQuery(name = "PlanDetail.findById", query = "SELECT p FROM PlanDetail p WHERE p.id = :id")})
-public class PlanDetail implements Serializable {
+    @NamedQuery(name = "GroupTransaction.findAll", query = "SELECT g FROM GroupTransaction g"),
+    @NamedQuery(name = "GroupTransaction.findById", query = "SELECT g FROM GroupTransaction g WHERE g.id = :id")})
+public class GroupTransaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -36,17 +36,17 @@ public class PlanDetail implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "plan_id", referencedColumnName = "id")
+    @JoinColumn(name = "group_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Plan planId;
+    private GroupExpense groupId;
     @JoinColumn(name = "transaction_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Transaction transactionId;
 
-    public PlanDetail() {
+    public GroupTransaction() {
     }
 
-    public PlanDetail(Integer id) {
+    public GroupTransaction(Integer id) {
         this.id = id;
     }
 
@@ -58,12 +58,12 @@ public class PlanDetail implements Serializable {
         this.id = id;
     }
 
-    public Plan getPlanId() {
-        return planId;
+    public GroupExpense getGroupId() {
+        return groupId;
     }
 
-    public void setPlanId(Plan planId) {
-        this.planId = planId;
+    public void setGroupId(GroupExpense groupId) {
+        this.groupId = groupId;
     }
 
     public Transaction getTransactionId() {
@@ -84,10 +84,10 @@ public class PlanDetail implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PlanDetail)) {
+        if (!(object instanceof GroupTransaction)) {
             return false;
         }
-        PlanDetail other = (PlanDetail) object;
+        GroupTransaction other = (GroupTransaction) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -96,7 +96,7 @@ public class PlanDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "com.lnnd.pojo.PlanDetail[ id=" + id + " ]";
+        return "com.lnnd.pojo.GroupTransaction[ id=" + id + " ]";
     }
     
 }

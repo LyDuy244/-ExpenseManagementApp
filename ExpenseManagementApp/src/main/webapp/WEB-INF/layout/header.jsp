@@ -20,14 +20,6 @@
                     <a class="nav-link" href="#">Trang chủ</a>
                 </li>
 
-                <c:url value="/transactions" var="transaction"/>
-                <li class="nav-item">
-                    <a class="nav-link" href="${transaction}">Quản lý thu chi</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/group"/>">Quản lý nhóm thu chi</a>
-                </li>
-
                 <c:if test="${pageContext.request.userPrincipal.name == null}">
                     <li class="nav-item">
                         <a class="nav-link" href="<c:url value="/login"/>">Đăng nhâp</a>
@@ -35,6 +27,13 @@
 
                 </c:if>
                 <c:if test="${pageContext.request.userPrincipal.name != null}">
+                    <c:url value="/transactions" var="transaction"/>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${transaction}">Quản lý thu chi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<c:url value="/group"/>">Quản lý nhóm thu chi</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<c:url value="/"/>">${pageContext.request.userPrincipal.name}</a>
                     </li>
@@ -42,7 +41,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<c:url value="/logout"/>">Đăng xuất</a>
                     </li>
-                    
+
                 </c:if>
             </ul>
             <form class="d-flex" action="${action}">

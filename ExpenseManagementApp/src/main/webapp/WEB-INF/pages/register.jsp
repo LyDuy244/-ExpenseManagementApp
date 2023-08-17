@@ -15,7 +15,6 @@
 </c:if>
 <c:url value="/register" var="action"/>
 <form:form method="post" action="${action}" modelAttribute="user" enctype="multipart/form-data">
-    <form:hidden path="id" />
     <div class="wrapper wrapper--w680">
         <div class="card card-4">
             <div class="card-body">
@@ -41,7 +40,7 @@
                             <div class="input-group">
                                 <label class="label">Ngày sinh nhật</label>
                                 <div class="input-group-icon">
-                                    <form:input type="date" class="form-control" pattern="yyyy-MM-dd" placeholder="Enter Date of birth" path="birthday" />
+                                    <form:input type="date" class="form-control" pattern="yyyy-MM-dd" path="birthday" />
                                     <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                                 </div>
                             </div>
@@ -74,7 +73,7 @@
                                 <label class="label">Kiểu khách hàng</label>
                                 <div class="rs-select2 js-select-simple select--no-search">
                                     <form:select name="subject" path="userRole">
-                                        <option value="ROLE_USER" disabled="disabled" selected="selected">Người dùng</option>
+                                        <option value="ROLE_USER">Người dùng</option>
                                         <option value="ROLE_BUSINESS">Doanh nghiệp</option>
                                         <option value="ROLE_REPRESENTATIVE">Đại diện nhóm</option>
                                     </form:select>
@@ -119,9 +118,3 @@
         </div>
     </div>
 </form:form>
-
-
-
-
-
-

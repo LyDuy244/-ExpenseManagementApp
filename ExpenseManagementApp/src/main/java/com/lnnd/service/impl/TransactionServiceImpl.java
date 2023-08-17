@@ -38,4 +38,14 @@ public class TransactionServiceImpl implements TransactionService{
         t.setCreatedDate(new Date());
         return this.transactionRepository.addOrUpdateTransaction(t);
     }
+
+    @Override
+    public Transaction getTransactionById(int id) {
+        return this.transactionRepository.getTransactionById(id);
+    }
+
+    @Override
+    public List<Transaction> getAllTransactionsByUserId(int userId, Map<String, String> params, int pageSize) {
+        return this.transactionRepository.getAllTransactionsByUserId(userId, params, userId);
+    }
 }

@@ -75,8 +75,8 @@ public class UserServiceImpl implements UserService {
         Set<GrantedAuthority> auth = new HashSet<>();
 
         auth.add(new SimpleGrantedAuthority(user.getUserRole()));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), auth);
+        return new MyUserDetails(user);
     }
 
-   
+    
 }

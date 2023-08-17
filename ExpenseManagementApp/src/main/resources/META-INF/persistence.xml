@@ -12,6 +12,7 @@
     <class>com.lnnd.pojo.Plan</class>
     <class>com.lnnd.pojo.Group</class>
     <class>com.lnnd.pojo.GroupExpense</class>
+    <class>com.lnnd.pojo.GroupTransaction</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/expensedb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

@@ -103,10 +103,54 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                 s.update(t);
             }
             return true;
-        }catch(HibernateException ex){
+        } catch (HibernateException ex) {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public Transaction getTransactionById(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        return session.get(Transaction.class, id);
+    }
+
+    @Override
+    public List<Transaction> getAllTransactionsByUserId(int userId, Map<String, String> params, int pageSize) {     
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Transaction> q = b.createQuery(Transaction.class);
+        Root root = q.from(Transaction.class);
+        q.select(root);
+        
+         if (params != null) {
+            List<Predicate> predicates = new ArrayList<>();
+
+            String kw = params.get("kw");
+            if (kw != null && !kw.isEmpty()) {
+                predicates.add(b.like(root.get("purpose"), String.format("%%%s%%", kw)));
+            }
+
+            String typeId = params.get("typeId");
+            if (typeId != null && !typeId.isEmpty()) {
+                predicates.add(b.equal(root.get("typeId"), Integer.parseInt(typeId)));
+            }
+            
+            predicates.add(b.equal(root.get("userId"), userId));
+
+            Predicate[] predicateArray = new Predicate[predicates.size()];
+            for (int i = 0; i < predicates.size(); i++) {
+                predicateArray[i] = predicates.get(i);
+            }
+
+            q.where(predicateArray);
+        }
+
+        q.orderBy(b.asc(root.get("id")));
+
+        Query query = session.createQuery(q);
+
+        return query.getResultList();
     }
 
 }

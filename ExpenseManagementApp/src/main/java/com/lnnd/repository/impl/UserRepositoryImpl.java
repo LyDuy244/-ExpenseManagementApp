@@ -33,10 +33,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean addUser(User user) {
         Session session = this.factory.getObject().getCurrentSession();
-        try{
+        try {
             session.save(user);
             return true;
-        }catch(HibernateException ex){
+        } catch (HibernateException ex) {
             System.err.println(ex.getMessage());
         }
         return false;
@@ -52,6 +52,9 @@ public class UserRepositoryImpl implements UserRepository {
 
         if (!username.isEmpty()) {
             Predicate p = b.equal(root.get("username").as(String.class), username.trim());
+            query = query.where(p);
+        }else{
+            Predicate p = b.equal(root.get("username").as(String.class), "");
             query = query.where(p);
         }
 

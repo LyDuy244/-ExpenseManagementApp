@@ -74,7 +74,7 @@ public class Transaction implements Serializable {
     @Column(name = "is_active")
     private boolean isActive;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "transactionId")
-    private Set<PlanDetail> planDetailSet;
+    private Set<GroupTransaction> groupTransactionSet;
     @JoinColumn(name = "type_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TypeTransaction typeId;
@@ -147,12 +147,12 @@ public class Transaction implements Serializable {
     }
 
     @XmlTransient
-    public Set<PlanDetail> getPlanDetailSet() {
-        return planDetailSet;
+    public Set<GroupTransaction> getGroupTransactionSet() {
+        return groupTransactionSet;
     }
 
-    public void setPlanDetailSet(Set<PlanDetail> planDetailSet) {
-        this.planDetailSet = planDetailSet;
+    public void setGroupTransactionSet(Set<GroupTransaction> groupTransactionSet) {
+        this.groupTransactionSet = groupTransactionSet;
     }
 
     public TypeTransaction getTypeId() {

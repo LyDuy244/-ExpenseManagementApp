@@ -4,49 +4,77 @@
  */
 package com.lnnd.service.impl;
 
+import com.lnnd.pojo.User;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
  * @author ADMIN
  */
-public class MyUserDetails implements UserDetails{
+public class MyUserDetails implements UserDetails {
 
+    private User user;
+
+    public MyUserDetails(User user) {
+        this.user = user;
+    }
+
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        // Trích xuất danh sách quyền từ cột userRole
+        String userRole = user.getUserRole();
+        authorities.add(new SimpleGrantedAuthority(userRole));
+
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return user.getUsername();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return user.getIsActive();
+    }
+
+    public String getFullname(){
+        return user.getFirstName() + " " + user.getLastName();
     }
     
+    public String getEmail(){
+        return user.getEmail();
+    }
+    
+    public int getId(){
+        return user.getId();
+    }
 }
