@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface TypeTransactionService {
     List<TypeTransaction> getTypeTransaction();
+    TypeTransaction getTypeTransactionById(int id);
 }

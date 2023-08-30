@@ -42,18 +42,7 @@ public class IndexController {
     }
 
     @RequestMapping("/")
-    public String index(Model model, @RequestParam Map<String, String> params,
-            @RequestParam(name = "pageSize", defaultValue = "10") String ps) {
-
-//        int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
-        String size = params.get("ps");
-        if (size != null) {
-            pageSize = Integer.parseInt(size);
-        }
-        Long count = this.transactionService.countTransaction();
-        model.addAttribute("counter", Math.ceil(count * 1.0 / pageSize));
-        model.addAttribute("pagesize", size);
-        model.addAttribute("transactions", this.transactionService.getTransactions(params, pageSize));
+    public String index(Model model) {
         return "index";
     }
 

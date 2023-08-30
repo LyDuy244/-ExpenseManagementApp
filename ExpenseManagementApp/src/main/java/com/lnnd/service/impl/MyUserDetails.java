@@ -70,11 +70,38 @@ public class MyUserDetails implements UserDetails {
         return user.getFirstName() + " " + user.getLastName();
     }
     
+    public String getFirstName(){
+        return user.getFirstName();
+    }
+    
+    public String getLastName(){
+        return user.getLastName();
+    }
+    
     public String getEmail(){
         return user.getEmail();
     }
     
+    public String getAvartar(){
+        return user.getAvartar();
+    }
+    
+    public String getUserRole(){
+        return user.getUserRole();
+    }
+    
     public int getId(){
         return user.getId();
+    }
+    
+    public void setFirstName(String firstName){
+        this.user.setFirstName(firstName);
+    }
+    
+    public void setLastName(String lastName){
+        this.user.setLastName(lastName);
+    }
+    public void setAvartar(String avartar){
+        this.user.setAvartar(avartar);
     }
 }

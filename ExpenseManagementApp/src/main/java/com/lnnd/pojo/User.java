@@ -4,6 +4,7 @@
  */
 package com.lnnd.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -57,22 +58,21 @@ public class User implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @NotNull(message = "{user.name.notNull}")
+    @Size(min = 1, max = 15, message = "{user.name.lenErr}")
     @Column(name = "username")
     private String username;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @NotNull(message = "{user.password.notNull}")
+    @Size(min=1, max = 255, message = "{user.password.lenErr}")
     @Column(name = "password")
     private String password;
     @Basic(optional = false)
-    @NotNull
+    @NotNull()
     @Size(min = 1, max = 255)
     @Column(name = "user_role")
     private String userRole;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "avartar")
     private String avartar;
@@ -81,45 +81,53 @@ public class User implements Serializable {
     @Column(name = "gender")
     private boolean gender;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{user.birthday.notNull}")   
     @Column(name = "birthday")
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @NotNull(message = "{user.email.notNull}")
+    @Size(max = 255)
     @Column(name = "email")
     private String email;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @NotNull(message = "{user.firstName.notNull}")
+    @Size(min = 1, max = 50, message = "{user.firstName.lenErr}")
     @Column(name = "first_name")
     private String firstName;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @NotNull(message = "{user.lastName.notNull}")
+    @Size(min = 1, max = 50, message = "{user.lastName.notNull}")
     @Column(name = "last_name")
     private String lastName;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "is_active")
     private boolean isActive;
+    
+    @Basic(optional = false)
+    @Column(name = "verification_code")
+    private String verificationCode;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
     private Set<Notification> notificationSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ownerId")
+    @JsonIgnore
+    private Set<GroupExpense> groupExpenseSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
     private Set<GroupMember> groupMemberSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
     private Set<Transaction> transactionSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ownerId")
-    private Set<GroupExpense> groupExpenseSet;
 
     @Transient
     private MultipartFile file;
     @Transient
     private String confirmPassword;
-    
+
     public User() {
     }
 
@@ -239,6 +247,15 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    public Set<GroupExpense> getGroupExpenseSet() {
+        return groupExpenseSet;
+    }
+
+    public void setGroupExpenseSet(Set<GroupExpense> groupExpenseSet) {
+        this.groupExpenseSet = groupExpenseSet;
+    }
+
+    @XmlTransient
     public Set<GroupMember> getGroupMemberSet() {
         return groupMemberSet;
     }
@@ -254,15 +271,6 @@ public class User implements Serializable {
 
     public void setTransactionSet(Set<Transaction> transactionSet) {
         this.transactionSet = transactionSet;
-    }
-
-    @XmlTransient
-    public Set<GroupExpense> getGroupExpenseSet() {
-        return groupExpenseSet;
-    }
-
-    public void setGroupExpenseSet(Set<GroupExpense> groupExpenseSet) {
-        this.groupExpenseSet = groupExpenseSet;
     }
 
     @Override
@@ -317,5 +325,19 @@ public class User implements Serializable {
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
-    
+
+    /**
+     * @return the vertificationCode
+     */
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    /**
+     * @param vertificationCode the vertificationCode to set
+     */
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
 }

@@ -25,11 +25,13 @@
                 <div class="input-group">
                     <label for="purpose" class="form-label">Tên nhóm: </label>
                     <form:input type="text" class="form-control" path="name" id="name" placeholder="Nhập tên nhóm ..." name="name"/>
+                    <form:errors path="name" element="div" cssClass="text-danger"/>
                 </div>
 
                 <div class="input-group">
                     <label for="purpose" class="form-label">Mục đích thu chi: </label>
                     <form:input type="text" class="form-control" path="title" id="title" placeholder="Nhập mục đích ..." name="title"/>
+                    <form:errors path="title" element="div" cssClass="text-danger"/>
                 </div>
 
                 <div class="input-group">
@@ -42,12 +44,16 @@
                         <div class="input-group">
                             <label class="label">Ngày bắt đầu</label>
                             <form:input type="date" class="form-control" pattern="yyyy-MM-dd" path="startDate" />
+                            <form:errors path="startDate" element="div" cssClass="text-danger"/>
+
                         </div>
                     </div>
                     <div class="col-2">
                         <div class="input-group">
                             <label class="label">Ngày kết thúc</label>
                             <form:input type="date" class="form-control" pattern="yyyy-MM-dd" path="endDate" />
+                            <form:errors path="endDate" element="div" cssClass="text-danger"/>
+
                         </div>
                     </div>
                 </div>

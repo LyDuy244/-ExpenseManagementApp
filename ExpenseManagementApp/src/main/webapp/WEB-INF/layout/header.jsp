@@ -7,6 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec"
            uri="http://www.springframework.org/security/tags" %> 
+<sec:authentication property="principal" var="loggedInUser" />
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
         <c:url value="/" var="action"/>
@@ -31,11 +32,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="${transaction}">Quản lý thu chi</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item">   
                         <a class="nav-link" href="<c:url value="/group"/>">Quản lý nhóm thu chi</a>
                     </li>
+
+                    <c:if test="${loggedInUser.userRole == 'ROLE_ADMIN'}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value="/manage-user"/>">Quản lý khách hàng</a>
+                        </li>
+                    </c:if>
+
                     <li class="nav-item">
-                        <a class="nav-link" href="<c:url value="/"/>">${pageContext.request.userPrincipal.name}</a>
+                        <a class="nav-link" href="<c:url value="/user-details"/>">${loggedInUser.fullname}</a>
                     </li>
 
                     <li class="nav-item">

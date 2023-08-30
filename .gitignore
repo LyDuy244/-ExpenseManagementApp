@@ -25,3 +25,5 @@ replay_pid*
 /ExpenseManagement/target/
 /mavenproject1/target/
 /ExpenseManagementApp/target/
+/Mail/target/
+/SendMail/target/

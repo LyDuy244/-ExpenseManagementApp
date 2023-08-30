@@ -6,6 +6,7 @@ package com.lnnd.configs;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -36,13 +37,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private Environment env;
-    
+
     @Autowired
     private UserDetailsService userDetailsService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SimpleDateFormat simpleDateFormat() {
+        return new SimpleDateFormat("yyyy-MM-dd");
     }
 
     @Override
@@ -56,16 +62,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin().loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("password");
-        
+
         http.formLogin().defaultSuccessUrl("/").failureUrl("/login?error");
-        
+
         http.logout().logoutSuccessUrl("/login");
-        
-        http.exceptionHandling().accessDeniedPage("/login?accessDenied");   
-        
+
+        http.exceptionHandling().accessDeniedPage("/login?accessDenied");
+
         http.authorizeRequests().antMatchers("/").permitAll()
-                .antMatchers("/transactions/**").access("hasAnyRole('ROLE_USER', 'ROLE_BUSINESS', 'ROLE_ADMIN', 'ROLE_REPRESENTATIVE')");
+                .antMatchers("/transactions/**").access("hasAnyRole('ROLE_USER', 'ROLE_BUSINESS', 'ROLE_ADMIN', 'ROLE_REPRESENTATIVE')")
+                .antMatchers("/group/**").access("hasAnyRole('ROLE_USER', 'ROLE_BUSINESS', 'ROLE_ADMIN', 'ROLE_REPRESENTATIVE')");
+//                .antMatchers("/manage-user/**").access("hasRole('ROLE_ADMIN')");
         
+
         http.csrf().disable();
     }
 

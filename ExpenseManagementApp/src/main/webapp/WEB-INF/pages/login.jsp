@@ -9,7 +9,7 @@
 <c:url value="/login" var="action"/>
 <c:if test="${param.error!= null}">
     <div class="alert alert-danger">
-        Da co loi xay ra vui long quay lai sau  
+        Tài khoản của bạn đang bị khóa hoặc Sai tên đăng nhập 
     </div>
 </c:if>
 

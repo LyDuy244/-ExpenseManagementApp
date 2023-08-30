@@ -23,6 +23,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 body {
     background-color: #fbfbfb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.container{
+    flex: 1;
 }
 
 ul {
@@ -777,10 +783,254 @@ input {
 }
 
 .addGroup .row .input-group>.form-control{
-    width: 75%; 
+    width: 75%;
 }
 
 .addGroup h1{
     margin-bottom: 20px;
     text-align: center;
+}
+
+/*Group*/
+
+
+.group h1{
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.group table,th,tr,td{
+    text-align: center;
+}
+
+.group .btn{
+    padding: 5px 10px;
+    line-height: 1.4;
+}
+
+/*group-details*/
+
+.group-details h1{
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.group-details .group-item{
+    font-weight: bold;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.group-details .group-item > span{
+    font-weight: normal;
+    width: 85%;
+}
+
+/*user card*/
+.section__member{
+    display: none;
+}
+.show{
+    display: block;
+}
+.hide{
+    display: none;
+}
+
+.card-list{
+    margin: 20px 0;
+    padding: 20px;
+    max-height: 300px;
+    overflow-y: scroll  ;
+}
+
+.user_card{
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user_card_img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.user_card > button{
+    margin-left: auto;
+}
+
+/*transaction*/
+.dropdown {
+    /*width: 40rem;*/
+    width: 230px;
+    position: relative;
+    margin-left: 20px;
+}
+.dropdown__select {
+    background-color: #42a7fe;
+    color: white;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 14px 20px;
+    border-radius: 5px;
+
+}
+
+.dropdown__link{
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+    text-decoration: none;
+    color: #b3bbce;
+    text-align: center;
+}
+.dropdown__caret {
+    margin-left: auto;
+}
+.dropdown__item {
+    color: #b3bbce;
+    border-left: 3px solid transparent;
+}
+.dropdown__item:not(:last-child) {
+    border-bottom: 1px solid #eee;
+}
+.dropdown__item:hover {
+    color: #74809d;
+    cursor: pointer;
+    border-left-color: #42a7fe;
+}
+.dropdown__list {
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 4px 0 #ccc;
+    position: absolute;
+    background-color: white;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    display: none;
+}
+
+.dropdown__list::before {
+    content: "";
+    width: 100%;
+    height: 20px;
+    background-color: transparent;
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+}
+.dropdown:hover .dropdown__list {
+    display: block;
+}
+
+.nav__transaction{
+    display: flex;
+    align-items: end;
+    margin: 30px 0;
+}
+
+.success{
+    background-color: green;
+    outline: none;
+}
+
+/*user details*/
+.profile{
+    display: flex;
+    box-shadow: 0 0 3px 0 #000;
+    border-radius: 10px;
+}
+.profile-group{
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.profile-group  .form-control{
+    width: 90%;
+}
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8;
+}
+
+.profile-button {
+    background: #BA68C8;
+    box-shadow: none;
+    border: none;
+}
+
+.profile-button:hover {
+    background: #682773;
+}
+
+.profile-button:focus {
+    background: #682773;
+    box-shadow: none;
+}
+
+.profile-button:active {
+    background: #682773;
+    box-shadow: none;
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer;
+}
+
+.back{
+    position: relative;
+    text-decoration: none;
+    color: black;   
+}
+.back h6{
+    padding-left: 30px;
+}
+.back-icon{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+/* custom inpt file */
+.profile-cover{
+    position: relative;
+}
+.file {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #fc556f;
+  background-color: rgba(253, 156, 132, 1);
+  position: relative;
+  top: -25px ;
+  left: 75px;
+}
+.file__input {
+  display: none;
+}
+.file__label {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  cursor: pointer;
+  z-index: 2;
+  color: #fff;
 }

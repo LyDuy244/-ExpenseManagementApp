@@ -4,6 +4,7 @@
  */
 package com.lnnd.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -47,6 +48,10 @@ public class TypeTransaction implements Serializable {
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
+    @JsonIgnore
+    private Set<GroupTransaction> groupTransactionSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
+    @JsonIgnore
     private Set<Transaction> transactionSet;
 
     public TypeTransaction() {
@@ -75,6 +80,15 @@ public class TypeTransaction implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @XmlTransient
+    public Set<GroupTransaction> getGroupTransactionSet() {
+        return groupTransactionSet;
+    }
+
+    public void setGroupTransactionSet(Set<GroupTransaction> groupTransactionSet) {
+        this.groupTransactionSet = groupTransactionSet;
     }
 
     @XmlTransient
@@ -110,5 +124,5 @@ public class TypeTransaction implements Serializable {
     public String toString() {
         return "com.lnnd.pojo.TypeTransaction[ id=" + id + " ]";
     }
-    
+
 }

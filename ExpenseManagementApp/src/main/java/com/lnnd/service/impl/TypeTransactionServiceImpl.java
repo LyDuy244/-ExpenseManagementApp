@@ -25,5 +25,10 @@ public class TypeTransactionServiceImpl implements TypeTransactionService{
     public List<TypeTransaction> getTypeTransaction() {
         return this.typeTransactionRepo.getTypeTransaction();
     }
+
+    @Override
+    public TypeTransaction getTypeTransactionById(int id) {
+        return this.typeTransactionRepo.getTypeTransactionById(id);
+    }
     
 }

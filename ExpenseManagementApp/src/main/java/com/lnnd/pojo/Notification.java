@@ -57,7 +57,7 @@ public class Notification implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

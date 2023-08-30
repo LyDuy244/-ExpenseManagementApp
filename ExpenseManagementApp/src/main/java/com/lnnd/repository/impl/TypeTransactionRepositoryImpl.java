@@ -33,4 +33,10 @@ public class TypeTransactionRepositoryImpl implements TypeTransactionRepository 
         return q.getResultList();
     }
 
+    @Override
+    public TypeTransaction getTypeTransactionById(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        return session.get(TypeTransaction.class, id);
+    }
+
 }

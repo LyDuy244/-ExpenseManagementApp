@@ -18,18 +18,14 @@ import org.springframework.stereotype.Service;
  * @author ADMIN
  */
 @Service
-public class TransactionServiceImpl implements TransactionService{
+public class TransactionServiceImpl implements TransactionService {
+
     @Autowired
     private TransactionRepository transactionRepository;
 
     @Override
-    public List<Transaction> getTransactions(Map<String, String> params, int pageSize) {
-        return this.transactionRepository.getTransactions(params, pageSize);
-    }
-
-    @Override
-    public Long countTransaction() {
-        return this.transactionRepository.countTransaction();
+    public Long countTransaction(int user_id) {
+        return this.transactionRepository.countTransaction(user_id);
     }
 
     @Override
@@ -46,6 +42,17 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Override
     public List<Transaction> getAllTransactionsByUserId(int userId, Map<String, String> params, int pageSize) {
-        return this.transactionRepository.getAllTransactionsByUserId(userId, params, userId);
+        return this.transactionRepository.getAllTransactionsByUserId(userId, params, pageSize);
+    }
+
+    @Override
+    public double getTotalAmountMonthOfTransactionsByUserId(int userId, String timePeriod) {
+        return this.transactionRepository.getTotalAmountMonthOfTransactionsByUserId(userId, timePeriod);
+    }
+
+    @Override
+    public double getTotalAmountQuarterOfTransactionsByUserId(int userId, String timePeriod) {
+        return this.transactionRepository.getTotalAmountQuarterOfTransactionsByUserId(userId, timePeriod);
+
     }
 }

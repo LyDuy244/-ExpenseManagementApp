@@ -6,9 +6,7 @@ package com.lnnd.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,14 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -51,13 +47,11 @@ public class Transaction implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @NotNull(message = "{transaction.purpose.notNull}")
+    @Size(min = 1, max = 50, message = "{transaction.purpose.lenErr}")
     @Column(name = "purpose")
     private String purpose;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 255)
     @Column(name = "description")
     private String description;
     @Basic(optional = false)
@@ -65,16 +59,12 @@ public class Transaction implements Serializable {
     @Column(name = "amount")
     private double amount;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "is_active")
     private boolean isActive;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "transactionId")
-    private Set<GroupTransaction> groupTransactionSet;
     @JoinColumn(name = "type_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TypeTransaction typeId;
@@ -89,10 +79,9 @@ public class Transaction implements Serializable {
         this.id = id;
     }
 
-    public Transaction(Integer id, String purpose, String description, double amount, Date createdDate, boolean isActive) {
+    public Transaction(Integer id, String purpose, double amount, Date createdDate, boolean isActive) {
         this.id = id;
         this.purpose = purpose;
-        this.description = description;
         this.amount = amount;
         this.createdDate = createdDate;
         this.isActive = isActive;
@@ -146,15 +135,6 @@ public class Transaction implements Serializable {
         this.isActive = isActive;
     }
 
-    @XmlTransient
-    public Set<GroupTransaction> getGroupTransactionSet() {
-        return groupTransactionSet;
-    }
-
-    public void setGroupTransactionSet(Set<GroupTransaction> groupTransactionSet) {
-        this.groupTransactionSet = groupTransactionSet;
-    }
-
     public TypeTransaction getTypeId() {
         return typeId;
     }
@@ -195,5 +175,5 @@ public class Transaction implements Serializable {
     public String toString() {
         return "com.lnnd.pojo.Transaction[ id=" + id + " ]";
     }
-    
+
 }

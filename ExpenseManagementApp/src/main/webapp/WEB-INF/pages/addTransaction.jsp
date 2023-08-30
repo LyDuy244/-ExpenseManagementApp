@@ -23,10 +23,12 @@
         <div class="card card-4">
             <div class="card-body">
                 <h1>Quản lý thu chi</h1>
+                <form:errors path="*" element="div" cssClass="text-danger"/>
 
                 <div class="input-group">
                     <label for="purpose" class="form-label">Mục đích: </label>
-                    <form:input type="text" class="form-control" path="purpose" id="purpose" placeholder="Nhập mục đích ..." name="purpose"/>
+                    <form:input  type="text" class="form-control" path="purpose" id="purpose" placeholder="Nhập mục đích ..." name="purpose"/>
+                    <form:errors path="purpose" element="div" cssClass="text-danger"/>
                 </div>
                 <div class="input-group">
                     <label for="description" class="form-label">Mô tả chi tiết (tùy chọn): </label>
@@ -36,7 +38,7 @@
 
                 <div class="input-group">
                     <label for="amount" class="form-label">Số tiền: </label>
-                    <form:input type="number" class="form-control" path="amount" id="amount" placeholder="Nhập số tiền ..." name="amount"/>
+                    <form:input oninput="limitNumberLength()"  type="number" class="form-control" path="amount" id="amountInput" placeholder="Nhập số tiền ..." name="amount"/>
                 </div>
 
                 <div class="input-group">
@@ -58,7 +60,7 @@
                 </div>
 
 
-                <button class="btn btn-info mt-4">
+                <button class="btn btn-info mt-4" type="submit">
                     <c:choose>
                         <c:when test="${transaction.id == null}">Thêm thu chi</c:when>
                         <c:otherwise>Cập nhật</c:otherwise>
@@ -70,3 +72,13 @@
 
 
 </form:form>
+
+<script>
+    function limitNumberLength() {
+        var input = document.getElementById("amountInput");
+        var maxLength = 10; // Số lượng ký tự tối đa bạn muốn cho phép
+        if (input.value.length > maxLength) {
+            input.value = input.value.slice(0, maxLength);
+        }
+    }
+</script>

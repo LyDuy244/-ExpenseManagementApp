@@ -12,5 +12,8 @@ import java.util.List;
  * @author ADMIN
  */
 public interface TypeTransactionRepository {
+
     List<TypeTransaction> getTypeTransaction();
+
+    TypeTransaction getTypeTransactionById(int id);
 }

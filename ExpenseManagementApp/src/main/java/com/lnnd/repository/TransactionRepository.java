@@ -13,9 +13,17 @@ import java.util.Map;
  * @author ADMIN
  */
 public interface TransactionRepository {
-    List<Transaction> getTransactions(Map<String, String> params, int pageSize);
-    Long countTransaction();
+
+    Long countTransaction(int id);
+
     boolean addOrUpdateTransaction(Transaction t);
+
     Transaction getTransactionById(int id);
+
     List<Transaction> getAllTransactionsByUserId(int userId, Map<String, String> params, int pageSize);
+
+    double getTotalAmountMonthOfTransactionsByUserId(int userId, String timePeriod);
+
+    double getTotalAmountQuarterOfTransactionsByUserId(int userId, String timePeriod);
+
 }

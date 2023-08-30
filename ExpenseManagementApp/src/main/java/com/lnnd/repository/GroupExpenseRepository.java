@@ -5,11 +5,24 @@
 package com.lnnd.repository;
 
 import com.lnnd.pojo.GroupExpense;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author ADMIN
  */
 public interface GroupExpenseRepository {
+
     boolean addGroup(GroupExpense gr);
+
+    List<GroupExpense> getGroupExpensesByUserId(int userId, Map<String, String> params);
+
+    GroupExpense getGroupExpenseById(int id);
+
+    GroupExpense getGroupExpenseByInfo(GroupExpense gr);
+
+    Long countGroupExpenseByUserId(int userId);
+
 }
