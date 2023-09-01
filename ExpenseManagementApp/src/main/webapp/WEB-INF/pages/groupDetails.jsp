@@ -81,7 +81,6 @@
     </div>
 </div>
 
-
 <div class=" group-details mt-3">
     <div class="card card-4">
         <div class="card-body">
@@ -93,7 +92,7 @@
                         <th>Thành viên nhóm</th>     
                         <th>Username</th>                    
                         <th>Email</th> 
-                            <c:if test="${now > gr.endDate()}">
+                            <c:if test="${currentDate > gr.endDate}">
                             <th>Tổng tiền đã thu</th>
                             <th>Tổng tiền đã chi</th>
                             <th>Số tiền được trả lại</th>
@@ -108,17 +107,17 @@
                             <td>${member[0].firstName} ${member[0].lastName}</td>
                             <td>${member[0].username}</td>
                             <td>${member[0].email}</td>
-                            <c:if test="${now > gr.endDate()}">
+                            <c:if test="${currentDate > gr.endDate}">
                                 <td class="text-success">${member[1]}</td>       
                                 <td class="text-danger">${member[2]}</td>  
                                 <c:choose>
-                                    <c:when test="${member[1] - member[2] > 0}">
-                                        <td class="text-success">${member[1] - member[2]}</td>       
+                                    <c:when test="${member[1] - avgChi > 0}">
+                                        <td class="text-success">${member[1] - avgChi}</td>       
                                         <td class="text-danger">0</td>       
                                     </c:when> 
                                     <c:otherwise>
                                         <td class="text-success">0</td> 
-                                        <td class="text-danger">${member[2] - member[1]}</td>       
+                                        <td class="text-danger">${avgChi - member[1]}</td>       
                                     </c:otherwise>
                                 </c:choose>
                             </c:if>

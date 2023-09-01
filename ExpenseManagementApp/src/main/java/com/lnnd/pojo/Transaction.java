@@ -57,7 +57,7 @@ public class Transaction implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "amount")
-    private double amount;
+    private long amount;
     @Basic(optional = false)
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
@@ -79,7 +79,7 @@ public class Transaction implements Serializable {
         this.id = id;
     }
 
-    public Transaction(Integer id, String purpose, double amount, Date createdDate, boolean isActive) {
+    public Transaction(Integer id, String purpose, long amount, Date createdDate, boolean isActive) {
         this.id = id;
         this.purpose = purpose;
         this.amount = amount;
@@ -111,11 +111,11 @@ public class Transaction implements Serializable {
         this.description = description;
     }
 
-    public double getAmount() {
+    public long getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(long amount) {
         this.amount = amount;
     }
 

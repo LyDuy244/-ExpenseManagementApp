@@ -5,9 +5,11 @@
 package com.lnnd.repository.impl;
 
 import com.lnnd.pojo.Transaction;
+import com.lnnd.pojo.TypeTransaction;
 import com.lnnd.repository.TransactionRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.HibernateException;
@@ -57,7 +61,8 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         Root<Transaction> root = query.from(Transaction.class);
 
         query.select(builder.count(root))
-                .where(builder.equal(root.get("userId"), userId));
+                .where(builder.and(builder.equal(root.get("userId"), userId),
+                        builder.equal(root.get("isActive"), true)));
 
         TypedQuery<Long> typedQuery = session.createQuery(query);
         return typedQuery.getSingleResult();
@@ -85,7 +90,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         return session.get(Transaction.class, id);
     }
 
-    static int ps = 10;
+    static int ps = 0;
 
     @Override
     public List<Transaction> getAllTransactionsByUserId(int userId, Map<String, String> params, int pageSize) {
@@ -126,7 +131,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                 }
             }
 
-            predicates.add(b.equal(root.get("isActive"), 1));
+            predicates.add(b.equal(root.get("isActive"), true));
             predicates.add(b.equal(root.get("userId"), userId));
 
             Predicate[] predicateArray = new Predicate[predicates.size()];
@@ -144,6 +149,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             ps = pageSize;
             query.setMaxResults(ps);
         }
+
         if (params != null) {
             String page = params.get("page");
             if (page != null && !page.isEmpty()) {
@@ -153,7 +159,13 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                 query.setFirstResult((p - 1) * ps);
             }
 
+            String allTran = params.get("all");
+            if (allTran != null && !allTran.isEmpty()) {
+                ps = 0;
+            }
+
         }
+
         return query.getResultList();
     }
 
@@ -243,6 +255,102 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         Double totalExpense = typedQuery.getSingleResult();
 
         return totalExpense != null ? totalExpense : 0.0;
+    }
+
+    @Override
+    public List<Object[]> getTransactionStatisticsByUserId(int userId, Map<String, String> params) {
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> query = builder.createQuery(Object[].class);
+
+        int fromDate = 1, toDate = 12, year = LocalDate.now().getYear();
+        int tam = 0;
+
+        if (params != null) {
+            String fd = params.get("fromDate");
+            if (fd != null && !fd.isEmpty()) {
+                fromDate = Integer.parseInt(fd);
+            }
+
+            String td = params.get("toDate");
+            if (td != null && !td.isEmpty()) {
+                toDate = Integer.parseInt(td);
+            }
+            
+            String y = params.get("year");
+            if (y != null && !y.isEmpty()) {
+                year = Integer.parseInt(y);
+            }
+        }
+
+        if (fromDate > toDate) {
+            tam = fromDate;
+            fromDate = toDate;
+            toDate = tam;
+        }
+
+        Root<Transaction> transactionRoot = query.from(Transaction.class);
+        Join<Transaction, TypeTransaction> typeTransactionJoin = transactionRoot.join("typeId");
+
+        Expression<Integer> month = builder.function("MONTH", Integer.class, transactionRoot.get("createdDate"));
+        Expression<Double> sumThu = builder.sum(
+                builder.<Double>selectCase()
+                        .when(builder.and(
+                                builder.equal(typeTransactionJoin.get("id"), 1),
+                                builder.between(month, fromDate, toDate)),
+                                transactionRoot.<Double>get("amount"))
+                        .otherwise(0.0)
+        );
+
+        Expression<Double> sumChi = builder.sum(
+                builder.<Double>selectCase()
+                        .when(builder.and(
+                                builder.equal(typeTransactionJoin.get("id"), 2),
+                                builder.between(month, fromDate, toDate)),
+                                transactionRoot.<Double>get("amount"))
+                        .otherwise(0.0)
+        );
+
+        query.multiselect(
+                month.alias("Month"),
+                sumThu.alias("Thu"),
+                sumChi.alias("Chi")
+        );
+
+        query.where(
+                builder.and(
+                        builder.equal(transactionRoot.get("userId"), userId),
+                        builder.equal(transactionRoot.get("isActive"), true),
+                        builder.between(month, fromDate, toDate),
+                        builder.equal(builder.function("YEAR", Integer.class, transactionRoot.get("createdDate")), year)
+                )
+        );
+
+        query.groupBy(month);
+        query.orderBy(builder.asc(month));
+        TypedQuery<Object[]> typedQuery = session.createQuery(query);
+
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    public List<Integer> getTransactionYearsByUserId(int userId) {
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Integer> query = builder.createQuery(Integer.class);
+        Root<Transaction> transactionRoot = query.from(Transaction.class);
+
+        query.select(builder.function("YEAR", Integer.class, transactionRoot.get("createdDate")))
+                .where(builder.and(
+                        builder.equal(transactionRoot.get("userId"), userId),
+                        builder.equal(transactionRoot.get("isActive"), true)
+                ))
+                .groupBy(builder.function("YEAR", Integer.class, transactionRoot.get("createdDate")));
+
+        // Thực hiện query và lấy danh sách năm
+        TypedQuery<Integer> typedQuery = session.createQuery(query);
+
+        return typedQuery.getResultList();
     }
 
 }

@@ -55,4 +55,14 @@ public class TransactionServiceImpl implements TransactionService {
         return this.transactionRepository.getTotalAmountQuarterOfTransactionsByUserId(userId, timePeriod);
 
     }
+
+    @Override
+    public List<Object[]> getTransactionStatisticsByUserId(int userId, Map<String, String> params) {
+        return this.transactionRepository.getTransactionStatisticsByUserId(userId, params);
+    }
+
+    @Override
+    public List<Integer> getTransactionYearsByUserId(int userId) {
+        return this.transactionRepository.getTransactionYearsByUserId(userId);
+    }
 }

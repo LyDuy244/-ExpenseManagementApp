@@ -54,16 +54,12 @@ public class GroupMemberController {
             @AuthenticationPrincipal MyUserDetails user) {
         Date now = new Date();
 
-        double totalThu = this.groupTranSer.getAmountGroupTransactionByGroupId(id, 1);
         double totalChi = this.groupTranSer.getAmountGroupTransactionByGroupId(id, 2);
         List<Object[]> memberList = this.groupMemberSer.getGroupMembersExpensesByGroupId(id);
 
-        double avgThu = totalThu / memberList.size();
         double avgChi = totalChi / memberList.size();
 
-        model.addAttribute("totalThu", totalThu);
         model.addAttribute("totalChi", totalChi);
-        model.addAttribute("avgThu", avgThu);
         model.addAttribute("avgChi", avgChi);
 
         model.addAttribute("users", this.userService.getAllUserWithoutCurrentUser(user.getId()));

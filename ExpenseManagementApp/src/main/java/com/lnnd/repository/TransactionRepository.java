@@ -26,4 +26,7 @@ public interface TransactionRepository {
 
     double getTotalAmountQuarterOfTransactionsByUserId(int userId, String timePeriod);
 
+    List<Object[]> getTransactionStatisticsByUserId(int userId, Map<String, String> params);
+
+    List<Integer> getTransactionYearsByUserId(int userId);
 }

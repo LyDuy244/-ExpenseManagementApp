@@ -35,6 +35,9 @@
                     <li class="nav-item">   
                         <a class="nav-link" href="<c:url value="/group"/>">Quản lý nhóm thu chi</a>
                     </li>
+                    <li class="nav-item">   
+                        <a class="nav-link" href="<c:url value="/stats"/>">Thống kê</a>
+                    </li>
 
                     <c:if test="${loggedInUser.userRole == 'ROLE_ADMIN'}">
                         <li class="nav-item">

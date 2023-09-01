@@ -10,7 +10,6 @@
 
 <div class="nav__transaction">
 
-
     <a class="btn btn-info" href="<c:url value="/transactions/add"/>">Thêm thu chi</a>
 
     <div class="dropdown">
@@ -20,7 +19,7 @@
         </div>
         <ul class="dropdown__list">
             <li class="dropdown__item">
-                <a class="dropdown__link" href="${pageTransaction}">Tất cả</a>
+                <a class="dropdown__link" href="<c:url value="/transactions?all=true"/>">Tất cả</a>
             </li>
             <li class="dropdown__item">
                 <a class="dropdown__link"  href="<c:url value="/transactions?ps=10" />">10</a>

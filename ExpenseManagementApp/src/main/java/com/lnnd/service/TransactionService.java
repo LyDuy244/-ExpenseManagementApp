@@ -25,4 +25,8 @@ public interface TransactionService {
     double getTotalAmountMonthOfTransactionsByUserId(int userId, String timePeriod);
 
     double getTotalAmountQuarterOfTransactionsByUserId(int userId, String timePeriod);
+
+    List<Object[]> getTransactionStatisticsByUserId(int userId, Map<String, String> params);
+
+    List<Integer> getTransactionYearsByUserId(int userId);
 }

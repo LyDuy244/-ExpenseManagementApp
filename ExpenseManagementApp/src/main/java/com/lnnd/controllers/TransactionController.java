@@ -56,6 +56,7 @@ public class TransactionController {
         model.addAttribute("type", this.typeTranSer.getTypeTransaction());
         model.addAttribute("transactions", this.tranSer.getAllTransactionsByUserId(user.getId(), params, pageSize));
         model.addAttribute("ps", pageSize);
+        model.addAttribute("count", count);
 
         return "transactions";
     }
@@ -77,13 +78,13 @@ public class TransactionController {
                 double amountThisQuarter = this.tranSer.getTotalAmountQuarterOfTransactionsByUserId(user.getId(), "present");
                 double amountLastQuarter = this.tranSer.getTotalAmountQuarterOfTransactionsByUserId(user.getId(), "past");
                 if (amountThisQuarter - amountLastQuarter > 5000000 && amountLastQuarter > 0) {
-                    this.userSer.sendMailWarning(u, "quý này của quý khách đã vượt quá chi tiêu tháng trước (chi tiêu cá nhâ): " + (amountThisQuarter - amountLastQuarter) + " đồng. Xin hãy thu chi cẩn thận hơn");
+                    this.userSer.sendMailWarning(u, "quý này của quý khách đã vượt quá chi tiêu quý trước (chi tiêu cá nhân): " + (amountThisQuarter - amountLastQuarter) + " đồng. Xin hãy thu chi cẩn thận hơn");
                 } else {
-                    double amountThisMonth = this.tranSer.getTotalAmountMonthOfTransactionsByUserId(user.getId(), "present");
-                    double amountLastMonth = this.tranSer.getTotalAmountMonthOfTransactionsByUserId(user.getId(), "past");
-                    if (amountThisMonth > amountLastMonth && amountLastMonth > 0) {
-                        this.userSer.sendMailWarning(u, "tháng");
-                    }
+//                    double amountThisMonth = this.tranSer.getTotalAmountMonthOfTransactionsByUserId(user.getId(), "present");
+//                    double amountLastMonth = this.tranSer.getTotalAmountMonthOfTransactionsByUserId(user.getId(), "past");
+//                    if (amountThisMonth > amountLastMonth && amountLastMonth > 0) {
+//                        this.userSer.sendMailWarning(u, "tháng này của quý khách đã vượt quá chi tiêu tháng trước (chi tiêu cá nhân): " + (amountThisMonth - amountLastMonth) + " đồng. Xin hãy thu chi cẩn thận hơn");
+//                    }
                 }
 
                 return "redirect:/transactions";

@@ -119,4 +119,10 @@
         <put-attribute name="content"
                        value="/WEB-INF/pages/admin/manageUser.jsp" />
     </definition>
+    
+     <definition name="stats" extends="baseLayout">
+        <put-attribute name="title" value="Thêm tin người dùng" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/stats_transaction.jsp" />
+    </definition>
 </tiles-definitions>
