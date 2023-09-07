@@ -6,9 +6,17 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>   
+
 <div class="container">
     <div class="text-center mt-5">
-        <h2 class="text-success">Gia nhập nhóm thành công</h2>
-        <h4>Chúc mừng bạn đã gia nhập nhóm ${gr.name} thành công</h4>
+        <h2 class="text-success">
+            <spring:message code="accept.success.title"/>
+        </h2>
+        <h4>
+            <spring:message code="accept.success.desc.1"/>
+            ${gr.name} 
+            <spring:message code="accept.success.desc.2"/>
+        </h4>
     </div>
 </div>  

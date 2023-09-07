@@ -170,10 +170,10 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     @Override
-    public double getTotalAmountMonthOfTransactionsByUserId(int userId, String timePeriod) {
+    public long getTotalAmountMonthOfTransactionsByUserId(int userId, String timePeriod) {
         Session session = this.factory.getObject().getCurrentSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Double> query = builder.createQuery(Double.class);
+        CriteriaQuery<Long> query = builder.createQuery(Long.class); // Đổi kiểu dữ liệu ở đây
         Root<Transaction> root = query.from(Transaction.class);
 
         LocalDateTime now = LocalDateTime.now();
@@ -192,7 +192,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             throw new IllegalArgumentException("Invalid time period");
         }
 
-        query.select(builder.sum(root.get("amount").as(Double.class)))
+        query.select(builder.sum(root.get("amount").as(Long.class))) // Đổi kiểu dữ liệu ở đây
                 .where(
                         builder.and(
                                 builder.equal(root.get("userId"), userId),
@@ -205,17 +205,17 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                         )
                 );
 
-        TypedQuery<Double> typedQuery = session.createQuery(query);
-        Double totalAmount = typedQuery.getSingleResult();
+        TypedQuery<Long> typedQuery = session.createQuery(query); // Đổi kiểu dữ liệu ở đây
+        Long totalAmount = typedQuery.getSingleResult(); // Đổi kiểu dữ liệu ở đây
 
-        return totalAmount != null ? totalAmount : 0.0;
+        return totalAmount != null ? totalAmount : 0L; // Đổi 0.0 thành 0L
     }
 
     @Override
-    public double getTotalAmountQuarterOfTransactionsByUserId(int userId, String timePeriod) {
+    public long getTotalAmountQuarterOfTransactionsByUserId(int userId, String timePeriod) {
         Session session = this.factory.getObject().getCurrentSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Double> query = builder.createQuery(Double.class);
+        CriteriaQuery<Long> query = builder.createQuery(Long.class); // Đổi kiểu dữ liệu của query
         Root<Transaction> root = query.from(Transaction.class);
 
         LocalDateTime now = LocalDateTime.now();
@@ -238,7 +238,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             throw new IllegalArgumentException("Invalid time period");
         }
 
-        query.select(builder.sum(root.get("amount").as(Double.class)))
+        query.select(builder.sum(root.get("amount").as(Long.class))) // Đổi kiểu dữ liệu của select
                 .where(
                         builder.and(
                                 builder.equal(root.get("userId"), userId),
@@ -251,10 +251,10 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                         )
                 );
 
-        TypedQuery<Double> typedQuery = session.createQuery(query);
-        Double totalExpense = typedQuery.getSingleResult();
+        TypedQuery<Long> typedQuery = session.createQuery(query); // Đổi kiểu dữ liệu của query
+        Long totalExpense = typedQuery.getSingleResult(); // Đổi kiểu dữ liệu của biến
 
-        return totalExpense != null ? totalExpense : 0.0;
+        return totalExpense != null ? totalExpense : 0L; // Đổi 0.0 thành 0L
     }
 
     @Override
@@ -276,7 +276,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             if (td != null && !td.isEmpty()) {
                 toDate = Integer.parseInt(td);
             }
-            
+
             String y = params.get("year");
             if (y != null && !y.isEmpty()) {
                 year = Integer.parseInt(y);
@@ -351,6 +351,20 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         TypedQuery<Integer> typedQuery = session.createQuery(query);
 
         return typedQuery.getResultList();
+    }
+
+    @Override
+    public boolean deleteTransaction(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        Transaction t = this.getTransactionById(id);
+
+        try {
+            session.delete(t);
+            return true;
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 
 }

@@ -15,13 +15,20 @@ import com.lnnd.service.GroupMemberService;
 import com.lnnd.service.UserService;
 import com.lnnd.validator.GroupExpenseDateValidator;
 import com.lnnd.validator.GroupExpenseValidator;
+import com.lnnd.validator.GroupTransactionAmountValidator;
+import com.lnnd.validator.GroupTransactionCreatedDateValidator;
+import com.lnnd.validator.GroupTransactionValidator;
 import com.lnnd.validator.RegisterConfirmPasswordValidator;
 import com.lnnd.validator.RegisterEmailValidator;
 import com.lnnd.validator.RegisterFileValidator;
+import com.lnnd.validator.RegisterPasswordValidator;
 import com.lnnd.validator.RegisterUsernameValidate;
 import com.lnnd.validator.RegisterValidator;
+import com.lnnd.validator.TransactionAmountValidator;
+import com.lnnd.validator.TransactionValidator;
 import java.text.SimpleDateFormat;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -36,10 +43,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 /**
  *
@@ -104,11 +115,10 @@ public class WebAppContextConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public MessageSource messageSource() {
+    public ResourceBundleMessageSource messageSource() {
         ResourceBundleMessageSource m = new ResourceBundleMessageSource();
-
-        m.setBasename("messages");
-
+        m.setBasename("message");
+        m.setDefaultEncoding("UTF-8");
         return m;
     }
 
@@ -127,6 +137,7 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         springValidators.add(new RegisterUsernameValidate(userDetailsService));
         springValidators.add(new RegisterConfirmPasswordValidator());
         springValidators.add(new RegisterFileValidator());
+        springValidators.add(new RegisterPasswordValidator());
 
         RegisterValidator v = new RegisterValidator();
         v.setSpringValidator(springValidators);
@@ -143,8 +154,45 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         return v;
     }
 
+    @Bean
+    public TransactionValidator transactionValidator() {
+        Set<Validator> springValidators = new HashSet<Validator>();
+        springValidators.add(new TransactionAmountValidator());
+
+        TransactionValidator v = new TransactionValidator();
+        v.setSpringValidator(springValidators);
+        return v;
+    }
+
+    @Bean
+    public GroupTransactionValidator groupTransactionValidator() {
+        Set<Validator> springValidators = new HashSet<Validator>();
+        springValidators.add(new GroupTransactionAmountValidator());
+        springValidators.add(new GroupTransactionCreatedDateValidator(grService));
+
+        GroupTransactionValidator v = new GroupTransactionValidator();
+        v.setSpringValidator(springValidators);
+        return v;
+    }
+
     @Override
     public Validator getValidator() {
         return validator();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        localeChangeInterceptor.setParamName("lang"); // Tham số trong URL để thay đổi ngôn ngữ
+        registry.addInterceptor(localeChangeInterceptor);
+    }
+
+    @Bean   
+    public LocaleResolver localeResolver() {
+        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+        localeResolver.setDefaultLocale(new Locale("vi")); // Ngôn ngữ mặc định là tiếng Anh
+        localeResolver.setCookieName("localeCookie"); // Tên cookie để lưu trữ ngôn ngữ
+        localeResolver.setCookieMaxAge(3600); // Thời gian tồn tại của cookie (giây)
+        return localeResolver;
     }
 }

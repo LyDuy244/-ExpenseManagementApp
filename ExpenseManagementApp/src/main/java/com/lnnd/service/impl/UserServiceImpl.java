@@ -30,6 +30,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,10 +44,14 @@ import org.springframework.stereotype.Service;
  * @author ADMIN
  */
 @Service("userDetailsService")
+@PropertySource("classpath:configs.properties")
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private Environment env;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -119,9 +125,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void sendMailWarning(User user, String text) throws MessagingException, UnsupportedEncodingException {
-        final String fromEmail = "2051052019duy@ou.edu.vn";
+        final String fromEmail = this.env.getProperty("spring.mail.username");
         // Mat khai email cua ban
-        final String password = "0935229705a";
+        final String password = this.env.getProperty("spring.mail.password");
         // dia chi email nguoi nhan
         final String toEmail = user.getEmail();
 
@@ -132,10 +138,10 @@ public class UserServiceImpl implements UserService {
         body += "<div> Xin cảm ơn. </div>";
 
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
-        props.put("mail.smtp.port", "587"); //TLS Port
-        props.put("mail.smtp.auth", "true"); //enable authentication
-        props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
+        props.put("mail.smtp.host", this.env.getProperty("spring.mail.host")); //SMTP Host
+        props.put("mail.smtp.port", this.env.getProperty("spring.mail.port")); //TLS Port
+        props.put("mail.smtp.auth", this.env.getProperty("spring.mail.properties.mail.smtp.auth")); //enable authentication
+        props.put("mail.smtp.starttls.enable", this.env.getProperty("spring.mail.properties.mail.smtp.starttls.enable")); //enable STARTTLS
 
         Authenticator auth = new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -177,9 +183,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void sendVerificationEmail(User user, String siteUrl) throws MessagingException, UnsupportedEncodingException {
-        final String fromEmail = "2051052019duy@ou.edu.vn";
+        final String fromEmail = this.env.getProperty("spring.mail.username");
         // Mat khai email cua ban
-        final String password = "0935229705a";
+        final String password = this.env.getProperty("spring.mail.password");
         // dia chi email nguoi nhan
         final String toEmail = user.getEmail();
 
@@ -192,10 +198,10 @@ public class UserServiceImpl implements UserService {
         body += "<div> Xin cảm ơn. </div>";
 
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
-        props.put("mail.smtp.port", "587"); //TLS Port
-        props.put("mail.smtp.auth", "true"); //enable authentication
-        props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
+        props.put("mail.smtp.host", this.env.getProperty("spring.mail.host")); //SMTP Host
+        props.put("mail.smtp.port", this.env.getProperty("spring.mail.port")); //TLS Port
+        props.put("mail.smtp.auth", this.env.getProperty("spring.mail.properties.mail.smtp.auth")); //enable authentication
+        props.put("mail.smtp.starttls.enable", this.env.getProperty("spring.mail.properties.mail.smtp.starttls.enable")); //enable STARTTLS
 
         Authenticator auth = new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -248,9 +254,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void sendInviteEmail(User userFrom, User userTo, GroupExpense group, String siteUrl) throws MessagingException, UnsupportedEncodingException {
-        final String fromEmail = "2051052019duy@ou.edu.vn";
+         final String fromEmail = this.env.getProperty("spring.mail.username");
         // Mat khai email cua ban
-        final String password = "0935229705a";
+        final String password = this.env.getProperty("spring.mail.password");
         // dia chi email nguoi nhan
         final String toEmail = userTo.getEmail();
 
@@ -264,10 +270,10 @@ public class UserServiceImpl implements UserService {
         body += "<div> Xin cảm ơn. </div>";
 
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
-        props.put("mail.smtp.port", "587"); //TLS Port
-        props.put("mail.smtp.auth", "true"); //enable authentication
-        props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
+        props.put("mail.smtp.host", this.env.getProperty("spring.mail.host")); //SMTP Host
+        props.put("mail.smtp.port", this.env.getProperty("spring.mail.port")); //TLS Port
+        props.put("mail.smtp.auth", this.env.getProperty("spring.mail.properties.mail.smtp.auth")); //enable authentication
+        props.put("mail.smtp.starttls.enable", this.env.getProperty("spring.mail.properties.mail.smtp.starttls.enable")); //enable STARTTLS
 
         Authenticator auth = new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {

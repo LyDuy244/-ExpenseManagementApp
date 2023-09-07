@@ -53,6 +53,58 @@ public class GroupTransactionServiceImpl implements GroupTransactionService{
         return this.grTransactionSer.getAmountGroupTransactionByGroupId(groupId, typeId);
     }
 
+    @Override
+    public List<GroupTransaction> getGroupTransactionByGroupIdAndUserId(int groupId, int userId, Map<String, String> params) {
+        return this.grTransactionSer.getGroupTransactionByGroupIdAndUserId(groupId, userId, params);
+    }
+
+    @Override
+    public GroupTransaction getGroupTransactionById(int id) {
+        return this.grTransactionSer.getGroupTransactionById(id);
+    }
+
+    @Override
+    public boolean deleteGroupTransaction(int id) {
+        return this.grTransactionSer.deleteGroupTransaction(id);
+    }
+
+    @Override
+    public boolean updateGroupTransaction(int id, GroupTransaction gt) {
+        GroupTransaction groupTran = this.getGroupTransactionById(id);
+        groupTran.setPurpose(gt.getPurpose());
+        groupTran.setDescription(gt.getDescription());
+        groupTran.setAmount(gt.getAmount());
+        groupTran.setTypeId(gt.getTypeId());
+
+       
+        return this.grTransactionSer.updateGroupTransaction(id, groupTran);
+    }
+
+    @Override
+    public Long countGroupTransactionByGroupIdAndUserId(int groupId, int userId) {
+        return this.grTransactionSer.countGroupTransactionByGroupIdAndUserId(groupId, userId);
+    }
+
+    @Override
+    public List<Object[]> getGroupTransactionStatisticsByUserId(int userId, Map<String, String> params) {
+        return this.grTransactionSer.getGroupTransactionStatisticsByUserId(userId, params);
+    }
+
+    @Override
+    public List<Integer> getGroupTransactionYearsByUserId(int userId) {
+        return this.grTransactionSer.getGroupTransactionYearsByUserId(userId);
+    }
+
+    @Override
+    public long getTotalAmountMonthOfGroupTransactionsByUserId(int userId, String timePeriod) {
+        return this.grTransactionSer.getTotalAmountMonthOfGroupTransactionsByUserId(userId, timePeriod);
+    }
+
+    @Override
+    public long getTotalAmountQuarterOfGroupTransactionsByUserId(int userId, String timePeriod) {
+        return this.grTransactionSer.getTotalAmountQuarterOfGroupTransactionsByUserId(userId, timePeriod);
+    }
+
    
     
 }

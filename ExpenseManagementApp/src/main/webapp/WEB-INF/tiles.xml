@@ -19,15 +19,109 @@
     </definition>
     
     <definition name="transactions" extends="baseLayout">
-        <put-attribute name="title" value="Quản trị thu chi" />
+        <put-attribute name="title" value="Quản lý thu chi cá nhân" />
         <put-attribute name="content"
                        value="/WEB-INF/pages/transactions.jsp" />
     </definition>
     
-     <definition name="addTransaction" extends="baseLayout">
-        <put-attribute name="title" value="Thêm thu chi" />
+    <definition name="addTransaction" extends="baseLayout">
+        <put-attribute name="title" value="Thêm thu chi cá nhân" />
         <put-attribute name="content"
                        value="/WEB-INF/pages/addTransaction.jsp" />
+    </definition>
+    
+    
+    
+    <definition name="group" extends="baseLayout">
+        <put-attribute name="title" value="Nhóm thu chi" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/groupExpense.jsp" />
+    </definition>
+    
+    <definition name="addGroup" extends="baseLayout">
+        <put-attribute name="title" value="Thêm nhóm thu chi" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/addGroupExpense.jsp" />
+    </definition>
+    
+   
+    <definition name="groupDetails" extends="baseLayout">
+        <put-attribute name="title" value="Chi tiết nhóm" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/groupDetails.jsp" />
+    </definition>
+    <definition name="addTransactionGroup" extends="baseLayout">
+        <put-attribute name="title" value="Thêm thu chi nhóm" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/addTransactionGroup.jsp" />
+    </definition>
+    <definition name="groupTransaction" extends="baseLayout">
+        <put-attribute name="title" value="Thu chi nhóm" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/groupTransaction.jsp" />
+    </definition>
+    
+    <definition name="userDetails" extends="baseLayout">
+        <put-attribute name="title" value="Thông tin người dùng" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/userDetails.jsp" />
+    </definition>
+    
+    <definition name="register_success" extends="baseLayout">
+        <put-attribute name="title" value="Đăng ký thành công" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/register_success.jsp" />
+    </definition>
+    <definition name="verify_success" extends="baseLayout">
+        <put-attribute name="title" value="Xác nhận đăng ký thành công" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/register/verify_success.jsp" />
+    </definition>
+    <definition name="verify_fail" extends="baseLayout">
+        <put-attribute name="title" value="Xác nhận đăng ký thất bại" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/register/verify_fail.jsp" />
+    </definition>
+    
+    <definition name="invite_fail" extends="baseLayout">
+        <put-attribute name="title" value="Mời thành viên thất bại" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/groupMember/invite_fail.jsp" />
+    </definition>
+    
+    <definition name="invite_success" extends="baseLayout">
+        <put-attribute name="title" value="Mời thành viên thành công" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/groupMember/invite_success.jsp" />
+    </definition>
+    
+    <definition name="accept_success" extends="baseLayout">
+        <put-attribute name="title" value="Gia nhập nhóm thành công" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/groupMember/accept_success.jsp" />
+    </definition>
+    
+    <definition name="accept_fail" extends="baseLayout">
+        <put-attribute name="title" value="Gia nhập nhóm thất bại" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/groupMember/accept_fail.jsp" />
+    </definition>
+    <definition name="manageUser" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý người dùng" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/admin/manageUser.jsp" />
+    </definition>
+    
+    <definition name="stats_transaction" extends="baseLayout">
+        <put-attribute name="title" value="Thống kê thu chi cá nhân" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/stats_transaction.jsp" />
+    </definition>
+    
+    <definition name="stats_group_transaction" extends="baseLayout">
+        <put-attribute name="title" value="Thống kê thu chi nhóm" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/stats_group_transaction.jsp" />
     </definition>
     
     <definition name="login" extends="baseLayout">
@@ -36,93 +130,9 @@
                        value="/WEB-INF/pages/login.jsp" />
     </definition>
     
-     <definition name="group" extends="baseLayout">
-        <put-attribute name="title" value="Nhóm thu chi" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/groupExpense.jsp" />
-    </definition>
-    
-     <definition name="addGroup" extends="baseLayout">
-        <put-attribute name="title" value="Thêm nhóm" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/addGroupExpense.jsp" />
-    </definition>
-    
-    <definition name="register" extends="baseLayout">
+     <definition name="register" extends="baseLayout">
         <put-attribute name="title" value="Đăng ký" />
         <put-attribute name="content"
                        value="/WEB-INF/pages/register.jsp" />
-    </definition>
-    <definition name="groupDetails" extends="baseLayout">
-        <put-attribute name="title" value="Đăng ký" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/groupDetails.jsp" />
-    </definition>
-    <definition name="addTransactionGroup" extends="baseLayout">
-        <put-attribute name="title" value="Thêm thu chi" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/addTransactionGroup.jsp" />
-    </definition>
-    <definition name="groupTransaction" extends="baseLayout">
-        <put-attribute name="title" value="Thêm thu chi" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/groupTransaction.jsp" />
-    </definition>
-    
-     <definition name="userDetails" extends="baseLayout">
-        <put-attribute name="title" value="Thêm tin người dùng" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/userDetails.jsp" />
-    </definition>
-    
-    <definition name="register_success" extends="baseLayout">
-        <put-attribute name="title" value="Thêm tin người dùng" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/register_success.jsp" />
-    </definition>
-    <definition name="verify_success" extends="baseLayout">
-        <put-attribute name="title" value="Thêm tin người dùng" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/register/verify_success.jsp" />
-    </definition>
-     <definition name="verify_fail" extends="baseLayout">
-        <put-attribute name="title" value="Thêm tin người dùng" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/register/verify_fail.jsp" />
-    </definition>
-    
-    <definition name="invite_fail" extends="baseLayout">
-        <put-attribute name="title" value="Thêm tin người dùng" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/groupMember/invite_fail.jsp" />
-    </definition>
-    
-     <definition name="invite_success" extends="baseLayout">
-        <put-attribute name="title" value="Thêm tin người dùng" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/groupMember/invite_success.jsp" />
-    </definition>
-    
-     <definition name="accept_success" extends="baseLayout">
-        <put-attribute name="title" value="Thêm tin người dùng" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/groupMember/accept_success.jsp" />
-    </definition>
-    
-      <definition name="accept_fail" extends="baseLayout">
-        <put-attribute name="title" value="Thêm tin người dùng" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/groupMember/accept_fail.jsp" />
-    </definition>
-     <definition name="manageUser" extends="baseLayout">
-        <put-attribute name="title" value="Thêm tin người dùng" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/admin/manageUser.jsp" />
-    </definition>
-    
-     <definition name="stats" extends="baseLayout">
-        <put-attribute name="title" value="Thêm tin người dùng" />
-        <put-attribute name="content"
-                       value="/WEB-INF/pages/stats_transaction.jsp" />
     </definition>
 </tiles-definitions>

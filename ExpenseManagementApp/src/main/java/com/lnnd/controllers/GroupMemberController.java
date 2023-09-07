@@ -57,6 +57,8 @@ public class GroupMemberController {
         double totalChi = this.groupTranSer.getAmountGroupTransactionByGroupId(id, 2);
         List<Object[]> memberList = this.groupMemberSer.getGroupMembersExpensesByGroupId(id);
 
+      
+        
         double avgChi = totalChi / memberList.size();
 
         model.addAttribute("totalChi", totalChi);

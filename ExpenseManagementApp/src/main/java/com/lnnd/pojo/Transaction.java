@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -59,8 +60,10 @@ public class Transaction implements Serializable {
     @Column(name = "amount")
     private long amount;
     @Basic(optional = false)
+    @NotNull(message = "{transaction.createdDate.notNull}")
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdDate;
     @Basic(optional = false)
     @Column(name = "is_active")

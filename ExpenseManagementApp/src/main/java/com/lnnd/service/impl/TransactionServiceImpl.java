@@ -31,7 +31,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public boolean addOrUpdateTransaction(Transaction t) {
         t.setIsActive(true);
-        t.setCreatedDate(new Date());
         return this.transactionRepository.addOrUpdateTransaction(t);
     }
 
@@ -46,12 +45,12 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public double getTotalAmountMonthOfTransactionsByUserId(int userId, String timePeriod) {
+    public long getTotalAmountMonthOfTransactionsByUserId(int userId, String timePeriod) {
         return this.transactionRepository.getTotalAmountMonthOfTransactionsByUserId(userId, timePeriod);
     }
 
     @Override
-    public double getTotalAmountQuarterOfTransactionsByUserId(int userId, String timePeriod) {
+    public long getTotalAmountQuarterOfTransactionsByUserId(int userId, String timePeriod) {
         return this.transactionRepository.getTotalAmountQuarterOfTransactionsByUserId(userId, timePeriod);
 
     }
@@ -64,5 +63,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<Integer> getTransactionYearsByUserId(int userId) {
         return this.transactionRepository.getTransactionYearsByUserId(userId);
+    }
+
+    @Override
+    public boolean deleteTransaction(int id) {
+        return this.transactionRepository.deleteTransaction(id);
     }
 }

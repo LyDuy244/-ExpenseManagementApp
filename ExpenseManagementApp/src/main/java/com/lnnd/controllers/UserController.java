@@ -116,7 +116,8 @@ public class UserController {
         if (this.userDetailsService.updateUser(user.getId(), u) == true) {
             user.setFirstName(u.getFirstName());
             user.setLastName(u.getLastName());
-            return "redirect:/transactions";
+            user.setAvartar(u.getAvartar());
+            return "redirect:/user-details";
         }
 
         return "index";

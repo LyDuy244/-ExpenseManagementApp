@@ -6,20 +6,26 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>   
 
 <div class="nav__transaction">
 
-    <a class="btn btn-info" href="<c:url value="/transactions/add"/>">Thêm thu chi</a>
+    <a class="btn btn-info" href="<c:url value="/transactions/add"/>">
+        <spring:message code="transaction.btn.add"/>
+    </a>
 
     <div class="dropdown">
         <div class="dropdown__select">
-            <span class="dropdown__text">Số lượng thu chi</span>
+            <span class="dropdown__text">
+                <spring:message code="transaction.text.amount.expense"/>
+            </span>
             <i class="fa-solid fa-angle-down dropdown__caret"></i>
         </div>
         <ul class="dropdown__list">
             <li class="dropdown__item">
-                <a class="dropdown__link" href="<c:url value="/transactions?all=true"/>">Tất cả</a>
+                <a class="dropdown__link" href="<c:url value="/transactions?all=true"/>">
+                    <spring:message code="base.btn.all"/>
+                </a>
             </li>
             <li class="dropdown__item">
                 <a class="dropdown__link"  href="<c:url value="/transactions?ps=10" />">10</a>
@@ -54,8 +60,8 @@
         <input class="form-control me-2" type="date" name="fromDate">
         <input class="form-control me-2" type="date" name="toDate">
 
-        <input class="form-control me-2" type="text" name="kw" placeholder="Nhập từ khóa...">
-        <button class="btn btn-primary" type="submit">Tìm</button>
+        <input class="form-control me-2" type="text" name="kw" placeholder="<spring:message code="base.input.keyword"/>">
+        <button class="btn btn-primary" type="submit"><spring:message code="base.text.find"/></button>
     </form>
 </div>
 
@@ -65,26 +71,25 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Mục đích</th>
-                <th>Chi tiết</th>                    
-                <th>Tổng tiền</th>
-                <th>Loại thu chi</th>
-                <th>Ngày khởi tạo</th>
+                <th><spring:message code="transaction.purpose"/></th>
+                <th><spring:message code="transaction.desc"/></th>                    
+                <th><spring:message code="transaction.amount"/></th>
+                <th><spring:message code="transaction.type"/></th>
+                <th><spring:message code="transaction.date"/></th>
             </tr>
         </thead>
         <tbody>
             <c:forEach items="${transactions}" var="transaction">
                 <tr>
-                    <td>${transaction.id}</td>                    
                     <td>${transaction.purpose}</td>
                     <td>${transaction.description}</td>
-                    <td>${transaction.amount}</td>
+                    <td class="formattedAmount">${transaction.amount}</td>
                     <td>${transaction.typeId.name}</td>
                     <td>${transaction.createdDate}</td>
                     <td style="display: flex; justify-content: space-around;">
-                        <a href="<c:url value="/transactions/${transaction.id}" />" class="btn btn-success" >Cập nhật</a>
-                        <button class ="btn btn-danger">Xóa</button>
+                        <c:url value="/api/transactions/${transaction.id}" var="apiDel"/>
+                        <a href="<c:url value="/transactions/${transaction.id}" />" class="btn btn-success" ><spring:message code="transaction.btn.update"/></a>
+                        <button class ="btn btn-danger" onclick="delTran('${apiDel}',${transaction.id})"><spring:message code="transaction.btn.delete"/></button>
                     </td>
                 </tr>
             </c:forEach>
@@ -95,7 +100,7 @@
     <c:if test="${counter > 1}">
         <ul class="pagination mt-1">
             <c:url value="/transactions" var="pageTransaction"/>
-            <li class="page-item"><a class="page-link" href="${pageTransaction}">Tất cả</a></li>
+            <li class="page-item"><a class="page-link" href="${pageTransaction}"><spring:message code="base.btn.all"/></a></li>
                 <c:forEach begin="1" end="${counter}" var="i">
                     <c:url value="/transactions" var="pageUrl">
                         <c:param name="page" value="${i}"></c:param>
@@ -106,3 +111,19 @@
     </c:if>
 
 </section>
+
+<script>
+    // Tạo một đối tượng Intl.NumberFormat để định dạng tiền tệ
+    var formatter = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    });
+
+    var elements = document.getElementsByClassName('formattedAmount');
+    for (var i = 0; i < elements.length; i++) {
+        var text = elements[i].textContent;
+        var formattedAmount = formatter.format(text);
+        elements[i].textContent = formattedAmount;
+    }
+</script>
+<script src="<c:url value="/js/main.js"/>"></script>

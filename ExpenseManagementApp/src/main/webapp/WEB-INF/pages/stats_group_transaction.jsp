@@ -1,24 +1,28 @@
 <%-- 
-    Document   : stats_transaction
-    Created on : Aug 31, 2023, 12:43:47 PM
+    Document   : stats_group_transaction
+    Created on : Sep 2, 2023, 2:19:32 PM
     Author     : ADMIN
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>   
+
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec"
            uri="http://www.springframework.org/security/tags" %>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>   
-
 <sec:authentication property="principal" var="loggedInUser" />
-<h1 class="text-center text-success"> <spring:message code="stats.title.personal"/></h1>
+<h1 class="text-center text-success">
+    <spring:message code="stats.title.group"/>
+
+    
+</h1>
 
 <div class="row mt-5">
     <div class="col-md-5 col-sm-12" style="margin-right: 50px">
         <table id="statsTable" class="table text-center">
             <thead>
-           <th>
+            <th>
                 <spring:message code="stats.month"/>
                 
             </th>
@@ -92,12 +96,11 @@
 
         </form>
 
-        <canvas id="revenueStats"></canvas>
+        <canvas id="revenueStats"></canvas> 
     </div>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 
     let data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -111,29 +114,21 @@
     }<c:if test="${!status.last}">,</c:if>
     </c:forEach>
     ];
-
     // Lặp qua danh sách stats để cập nhật dữ liệu
     for (let i = 0; i < statsArray.length; i++) {
         let month = statsArray[i].month;
         let thu = statsArray[i].thu;
         let chi = statsArray[i].chi;
-
         data[month - 1] = thu;
         data2[month - 1] = chi;
     }
 
-    window.onload = function () {
-        drawRevenueStatsWithPrice(labels, data, data2);
-
-
-    };
-    
     // Tạo một đối tượng Intl.NumberFormat để định dạng tiền tệ
     var formatter = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: 'VND'
     });
-    
+
     var elements = document.getElementsByClassName('formattedAmount');
     for (var i = 0; i < elements.length; i++) {
         var text = elements[i].textContent;
@@ -144,4 +139,6 @@
     window.onload = function () {
         drawRevenueStatsWithPrice(labels, data, data2);
     };
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

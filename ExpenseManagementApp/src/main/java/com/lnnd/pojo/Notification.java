@@ -32,10 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Notification.findAll", query = "SELECT n FROM Notification n"),
-    @NamedQuery(name = "Notification.findById", query = "SELECT n FROM Notification n WHERE n.id = :id"),
-    @NamedQuery(name = "Notification.findByTitle", query = "SELECT n FROM Notification n WHERE n.title = :title"),
-    @NamedQuery(name = "Notification.findByContent", query = "SELECT n FROM Notification n WHERE n.content = :content"),
-    @NamedQuery(name = "Notification.findByCreatedDate", query = "SELECT n FROM Notification n WHERE n.createdDate = :createdDate")})
+    @NamedQuery(name = "Notification.findById", query = "SELECT n FROM Notification n WHERE n.id = :id")})
 public class Notification implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,19 +43,19 @@ public class Notification implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "title")
-    private String title;
+    @Column(name = "month")
+    private int monthNoti;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "content")
-    private String content;
+    @Column(name = "quarter")
+    private int quarter;
+    @Basic(optional = false)
+    @Column(name = "type")
+    private boolean type;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    @Column(name = "year")
+    private int yearNoti;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
@@ -70,11 +67,11 @@ public class Notification implements Serializable {
         this.id = id;
     }
 
-    public Notification(Integer id, String title, String content, Date createdDate) {
+    public Notification(Integer id, Integer month, Integer quarter, Integer year) {
         this.id = id;
-        this.title = title;
-        this.content = content;
-        this.createdDate = createdDate;
+        this.monthNoti = month;
+        this.quarter = quarter;
+        this.yearNoti = year;
     }
 
     public Integer getId() {
@@ -83,30 +80,6 @@ public class Notification implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
     }
 
     public User getUserId() {
@@ -141,5 +114,61 @@ public class Notification implements Serializable {
     public String toString() {
         return "com.lnnd.pojo.Notification[ id=" + id + " ]";
     }
-    
+
+    /**
+     * @return the month
+     */
+    public int getMonth() {
+        return monthNoti;
+    }
+
+    /**
+     * @param month the month to set
+     */
+    public void setMonth(int month) {
+        this.monthNoti = month;
+    }
+
+    /**
+     * @return the quarter
+     */
+    public int getQuarter() {
+        return quarter;
+    }
+
+    /**
+     * @param quarter the quarter to set
+     */
+    public void setQuarter(int quarter) {
+        this.quarter = quarter;
+    }
+
+    /**
+     * @return the year
+     */
+    public int getYear() {
+        return yearNoti;
+    }
+
+    /**
+     * @param year the year to set
+     */
+    public void setYear(int year) {
+        this.yearNoti = year;
+    }
+
+    /**
+     * @return the type
+     */
+    public boolean isType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(boolean type) {
+        this.type = type;
+    }
+
 }

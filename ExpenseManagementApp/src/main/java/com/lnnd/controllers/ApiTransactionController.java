@@ -17,7 +17,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,6 +50,11 @@ public class ApiTransactionController {
         return new ResponseEntity<>(this.tranSer.getAllTransactionsByUserId(user.getId(), params, 10), HttpStatus.OK);
     }
     
+    @DeleteMapping("/transactions/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable(value = "id") int id){
+        this.tranSer.deleteTransaction(id);
+    }
     
 
     @PostMapping(path = "/transactions/", consumes = {
@@ -55,7 +62,7 @@ public class ApiTransactionController {
         MediaType.APPLICATION_JSON_VALUE
     })
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] file) {
+    public void add(@RequestParam Map<String, String> params) {
         Transaction t = new Transaction();
         t.setPurpose(params.get("purpose"));
         t.setDescription(params.get("description"));

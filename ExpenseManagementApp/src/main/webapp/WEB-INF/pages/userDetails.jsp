@@ -10,6 +10,8 @@
 <%@ taglib prefix="sec"
            uri="http://www.springframework.org/security/tags" %>
 <sec:authentication property="principal" var="loggedInUser" />
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>   
+
 <c:url value="/user-details" var="action"/>
 <form:form method="post" action="${action}" modelAttribute="user" enctype="multipart/form-data">
     <form:hidden path="id"/>
@@ -41,35 +43,47 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <a class="d-flex flex-row align-items-center back" href="<c:url value="/"/>">
                             <i class="fa fa-long-arrow-left mr-1 mb-1 back-icon"></i>
-                            <h6>Back to home</h6>
+                            <h6>                            
+                                <spring:message code="user.detail.btn.back"/>
+                            </h6>
                         </a>
-                        <h6 class="text-right">Edit Profile</h6>
+                        <h6 class="text-right">                
+                            <spring:message code="user.detail.title"/>
+                        </h6>
                     </div>  
 
 
                     <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label" for="password">Họ và tên lót</label>
-                                <form:input type="text" class="form-control" placeholder="first name" path="firstName"/>
+                                <label class="label" for="firstName">
+                                    <spring:message code="user.detail.firstName"/>
+                                </label>
+                                <form:input type="text" class="form-control" id="firstName" path="firstName"/>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
-                                <label class="label" for="confirmPassword">Tên</label>
-                                <form:input type="text" class="form-control" placeholder="first name" path="lastName"/>
+                                <label class="label" for="lastName">
+                                    <spring:message code="user.detail.lastName"/>
+                                </label>
+                                <form:input type="text" class="form-control" id="lastName" path="lastName"/>
                             </div>
                         </div>
                     </div>
 
                     <div class="input-group">
-                        <label class="label">Giới tính</label>
+                        <label class="label">
+                            <spring:message code="user.detail.gender"/>
+                        </label>
                         <div class="p-t-10">
-                            <label class="radio-container m-r-45">Nam
+                            <label class="radio-container m-r-45">
+                                <spring:message code="user.detail.gender.male"/>
                                 <form:radiobutton path="gender" value="0"/>
                                 <span class="checkmark"></span>
                             </label>
-                            <label class="radio-container">Nữ
+                            <label class="radio-container">
+                                <spring:message code="user.detail.gender.female"/>
                                 <form:radiobutton path="gender" value="1"/>
                                 <span class="checkmark"></span>
                             </label>
@@ -77,14 +91,20 @@
                     </div>
 
                     <div class="input-group">
+                        <label class="label" for="email">
+                            Email
+                        </label>
                         <form:input type="email" class="form-control" placeholder="Email" path="email" readonly="true" />
                     </div>
                     <div class="input-group">
+                        <label class="label" for="birthday">
+                            <spring:message code="user.detail.birthday"/>
+                        </label>
                         <form:input type="date" class="form-control" pattern="yyyy-MM-dd" path="birthday" />
                     </div>
-
-
-                    <button class="btn btn-primary profile-button" type="submit">Save Profile</button>
+                    <button class="btn btn-primary profile-button" type="submit">
+                        <spring:message code="user.detail.btn.submit"/>
+                    </button>
                 </div>
             </div>
         </div>
@@ -94,7 +114,7 @@
     const fileInput = document.getElementById("file__input");
     const avatarImage = document.getElementById("avatarImage");
 
-    fileInput.addEventListener("change", function(event) {
+    fileInput.addEventListener("change", function (event) {
         const selectedFile = event.target.files[0];
 
         if (selectedFile) {

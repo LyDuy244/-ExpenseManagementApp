@@ -26,7 +26,6 @@ public class GroupExpenseServiceImpl implements GroupExpenseService {
     @Override
     public boolean addGroup(GroupExpense gr) {
         gr.setIsActive(true);
-        gr.setCreatedDate(new Date());
         return this.groupRepo.addGroup(gr);
     }
 

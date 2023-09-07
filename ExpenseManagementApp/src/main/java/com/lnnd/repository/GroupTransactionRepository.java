@@ -16,6 +16,7 @@ public interface GroupTransactionRepository {
 
     boolean addGroupTransaction(GroupTransaction grTransaction);
 
+    List<GroupTransaction> getGroupTransactionByGroupIdAndUserId(int groupId, int userId, Map<String, String> params);
 
     List<GroupTransaction> getGroupTransactionByGroupId(int groupId, boolean accept, Map<String, String> params);
 
@@ -23,5 +24,22 @@ public interface GroupTransactionRepository {
 
     Long countGroupTransactionByGroupId(int groupId, boolean accept);
 
+    Long countGroupTransactionByGroupIdAndUserId(int groupId, int userId);
+
     double getAmountGroupTransactionByGroupId(int groupId, int typeId);
+
+    GroupTransaction getGroupTransactionById(int id);
+
+    boolean deleteGroupTransaction(int id);
+
+    boolean updateGroupTransaction(int id, GroupTransaction grTransaction);
+
+    List<Object[]> getGroupTransactionStatisticsByUserId(int userId, Map<String, String> params);
+
+    List<Integer> getGroupTransactionYearsByUserId(int grMemberId);
+
+    long getTotalAmountMonthOfGroupTransactionsByUserId(int userId, String timePeriod);
+
+    long getTotalAmountQuarterOfGroupTransactionsByUserId(int userId, String timePeriod);
+
 }

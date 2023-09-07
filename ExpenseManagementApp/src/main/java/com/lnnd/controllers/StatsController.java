@@ -4,6 +4,7 @@
  */
 package com.lnnd.controllers;
 
+import com.lnnd.service.GroupTransactionService;
 import com.lnnd.service.TransactionService;
 import com.lnnd.service.UserService;
 import com.lnnd.service.impl.MyUserDetails;
@@ -29,9 +30,12 @@ public class StatsController {
 
     @Autowired
     private UserService userSer;
+    
+    @Autowired
+    private GroupTransactionService grTransactionSer;
 
-    @GetMapping("/stats")
-    public String registerView(Model model, @RequestParam Map<String, String> params,
+    @GetMapping("/stats/transaction")
+    public String statsTransactionView(Model model, @RequestParam Map<String, String> params,
             @AuthenticationPrincipal MyUserDetails user) {
 
         int currentYear = LocalDate.now().getYear();
@@ -40,6 +44,19 @@ public class StatsController {
         model.addAttribute("years", tranSer.getTransactionYearsByUserId(user.getId()));
         model.addAttribute("currentYear", currentYear);
 
-        return "stats";
+        return "stats_transaction";
+    }
+
+    @GetMapping("/stats/group-transaction")
+    public String statsGroupTransactionView(Model model, @RequestParam Map<String, String> params,
+            @AuthenticationPrincipal MyUserDetails user) {
+
+        int currentYear = LocalDate.now().getYear();
+
+        model.addAttribute("stats", this.grTransactionSer.getGroupTransactionStatisticsByUserId(user.getId(), params));
+        model.addAttribute("years", this.grTransactionSer.getGroupTransactionYearsByUserId(user.getId()));
+        model.addAttribute("currentYear", currentYear);
+
+        return "stats_group_transaction";
     }
 }

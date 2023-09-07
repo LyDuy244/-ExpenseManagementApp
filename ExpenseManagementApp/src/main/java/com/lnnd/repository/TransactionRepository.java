@@ -22,11 +22,13 @@ public interface TransactionRepository {
 
     List<Transaction> getAllTransactionsByUserId(int userId, Map<String, String> params, int pageSize);
 
-    double getTotalAmountMonthOfTransactionsByUserId(int userId, String timePeriod);
+    long getTotalAmountMonthOfTransactionsByUserId(int userId, String timePeriod);
 
-    double getTotalAmountQuarterOfTransactionsByUserId(int userId, String timePeriod);
+    long getTotalAmountQuarterOfTransactionsByUserId(int userId, String timePeriod);
 
     List<Object[]> getTransactionStatisticsByUserId(int userId, Map<String, String> params);
 
     List<Integer> getTransactionYearsByUserId(int userId);
+    
+    boolean deleteTransaction(int id);
 }

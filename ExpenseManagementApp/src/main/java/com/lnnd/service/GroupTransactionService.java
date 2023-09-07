@@ -23,4 +23,22 @@ public interface GroupTransactionService {
     Long countGroupTransactionByGroupId(int groupId, boolean accept);
 
     double getAmountGroupTransactionByGroupId(int groupId, int typeId);
+
+    GroupTransaction getGroupTransactionById(int id);
+
+    List<GroupTransaction> getGroupTransactionByGroupIdAndUserId(int groupId, int userId, Map<String, String> params);
+
+    boolean deleteGroupTransaction(int id);
+
+    boolean updateGroupTransaction(int id, GroupTransaction groupTran);
+
+    Long countGroupTransactionByGroupIdAndUserId(int groupId, int userId);
+
+    List<Object[]> getGroupTransactionStatisticsByUserId(int userId, Map<String, String> params);
+
+    List<Integer> getGroupTransactionYearsByUserId(int userId);
+
+    long getTotalAmountMonthOfGroupTransactionsByUserId(int userId, String timePeriod);
+
+    long getTotalAmountQuarterOfGroupTransactionsByUserId(int userId, String timePeriod);
 }

@@ -754,6 +754,37 @@ input {
         padding: 50px 40px;
     }
 }
+/*header*/
+.language{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.language-link{
+    display: flex;
+    text-decoration: none;
+    color: #000;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.language-link:hover{
+    color: #000;
+}
+
+.language-cover{
+    width: 24px;
+    height: 18px;
+    margin-right: 5px;
+}
+
+.language-cover img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
 /*Add transaction*/
 .addTransaction .input-group{
@@ -935,6 +966,10 @@ input {
     align-items: end;
     margin: 30px 0;
 }
+.navbar-nav{
+    width: 100%;
+    align-items: center;
+}
 
 .success{
     background-color: green;
@@ -989,7 +1024,7 @@ input {
 .back{
     position: relative;
     text-decoration: none;
-    color: black;   
+    color: black;
 }
 .back h6{
     padding-left: 30px;
@@ -1006,31 +1041,163 @@ input {
     position: relative;
 }
 .file {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid #fc556f;
-  background-color: rgba(253, 156, 132, 1);
-  position: relative;
-  top: -25px ;
-  left: 75px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #fc556f;
+    background-color: rgba(253, 156, 132, 1);
+    position: relative;
+    top: -25px ;
+    left: 75px;
 }
 .file__input {
-  display: none;
+    display: none;
 }
 .file__label {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  cursor: pointer;
-  z-index: 2;
-  color: #fff;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    cursor: pointer;
+    z-index: 2;
+    color: #fff;
+}
+
+
+/* Home */
+
+.home-title{
+    margin: 50px 0;
+    font-size: 50px;
+    color:#21a67a;
+    font-weight: bold;
+    font-family: sans-serif;
+    text-align: center;
+    padding:  100px 0;
+}
+
+.home-title span{
+    font-weight: 200;
+    color: #000;
+}
+
+.home-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    margin-top: 120px;
+    margin-bottom: 100px;
+}
+.home-info-item{
+    width: calc(25% - 10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0fdf8;
+    padding: 30px 0;
+    border-radius: 10px;
+}
+.home-info-cover{
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.home-info-cover img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.home-info-item h4{
+    font-size: 18px;
+}
+
+.feature{
+    margin: 0 auto;
+    width: 960px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 80px;
+}
+.feature.reverse{
+    flex-direction: row-reverse;
+}
+
+.feature-cover, .feature-content{
+    width: calc(50% - 20px);
+}
+
+.feature-cover img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.feature-title{
+    font-size: 40px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.feature-desc{
+    color: #aaacb0;
+}
+
+.feedback-user{
+    margin: 50px auto;
+    width: 960px
+}
+
+.feedback-title{
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.feedback-rate{
+    text-align: center;
+    color: #aaacb0;
+    margin-bottom: 80px;
+}
+.feedback-rate span i{
+    color:#ffcc00;
+}
+.feedback-count{
+    font-weight: bold;
+    margin: 0 5px;
+    font-size: 18px;
+    color: black;
+}
+
+.feedback-list{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.feedback-item{
+    width: calc(30% - 30px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 300px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.feedback-comment{
+    text-align: center;
 }
