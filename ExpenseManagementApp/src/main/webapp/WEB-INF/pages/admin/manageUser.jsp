@@ -16,6 +16,9 @@
         <c:url value="/manage-user" var="action"/>
         <form class="d-flex" action="${action}">
             <select class="select-dropdown me-2" name="userRole" style="width: 200px; margin-right: 10px; padding: 0 10px;">
+                <option value="">                                
+                    <spring:message code="base.btn.all"/>
+                </option>
                 <option value="ROLE_USER">                                
                     <spring:message code="manage.user.role.user"/>
                 </option>
