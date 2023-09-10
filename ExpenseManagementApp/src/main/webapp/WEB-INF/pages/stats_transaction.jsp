@@ -121,12 +121,6 @@
         data[month - 1] = thu;
         data2[month - 1] = chi;
     }
-
-    window.onload = function () {
-        drawRevenueStatsWithPrice(labels, data, data2);
-
-
-    };
     
     // Tạo một đối tượng Intl.NumberFormat để định dạng tiền tệ
     var formatter = new Intl.NumberFormat('vi-VN', {

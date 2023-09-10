@@ -16,7 +16,6 @@
 <form:form method="post" action="${action}" modelAttribute="group" >
     <c:if test="${pageContext.request.userPrincipal.name != null}">
         <sec:authentication property="principal" var="loggedInUser" />
-        <span>${loggedInUser.id}</span>
         <form:hidden path="ownerId" value="${loggedInUser.id}"/>    
     </c:if>
 

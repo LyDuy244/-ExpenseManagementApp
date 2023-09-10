@@ -35,5 +35,5 @@ public interface UserRepository {
     boolean isActive(int userId);
 
     boolean isBlock(int userId);
-
+    
 }

@@ -16,9 +16,11 @@ import com.lnnd.service.impl.MyUserDetails;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +49,9 @@ public class GroupMemberController {
 
     @Autowired
     private GroupTransactionService groupTranSer;
+    
+    @Autowired
+    private MessageSource messageSource;
 
     @GetMapping("/group/details/{id}")
     public String detailsGroupPage(Model model,
@@ -94,7 +99,9 @@ public class GroupMemberController {
     }
 
     @GetMapping("/invite")
-    public String verifyAccount(@RequestParam("userId") String userId, @RequestParam("groupId") String groupId, Model model) {
+    public String verifyAccount(@RequestParam("userId") String userId, 
+            @RequestParam("groupId") String groupId, Model model,
+            Locale locale) {
         int user_id = Integer.parseInt(userId);
         int group_id = Integer.parseInt(groupId);
         String msg = null;
@@ -105,10 +112,10 @@ public class GroupMemberController {
         if (memberList.size() < 4) {
             accept = groupMemberSer.acceptGroup(user_id, group_id);
             if (accept == false) {
-                msg = "Bạn đã tham gia nhóm ";
+                msg = messageSource.getMessage("invite.err.inGroup", null, locale);
             }
         } else {
-            msg = "Số lượng thành viên nhóm đã tối đa, bạn không thể tham gia nhóm ";
+            msg = messageSource.getMessage("invite.err.fullGroup", null, locale);
         }
 
         GroupExpense gr = groupSer.getGroupExpenseById(group_id);

@@ -27,6 +27,7 @@ import java.util.Map;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -66,6 +67,9 @@ public class TransactionGroupController {
 
     @Autowired
     private GroupMemberService grMemberSer;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Autowired
     private GroupTransactionValidator groupTransactionValidator;
@@ -110,7 +114,7 @@ public class TransactionGroupController {
 
     @PostMapping("/group/details/add-transaction")
     public String addGroupTransaction(Model model,
-            @ModelAttribute(value = "groupTransaction") @Valid GroupTransaction grTransaction,
+            @ModelAttribute(value = "groupTransaction") @Valid GroupTransaction grTransaction, Locale locale,
             BindingResult rs, @AuthenticationPrincipal MyUserDetails user) {
 
         GroupMember grMember = grMemberSer.getGroupMemberByUserIdAndGroupId(user.getId(), grTransaction.getGroupId().getId());
@@ -135,7 +139,7 @@ public class TransactionGroupController {
                 }
             }
         } else {
-            msg = "Kế hoạch nhóm đã kết thúc (không thể thêm hoặc cập nhật thu chi mới)";
+            msg = messageSource.getMessage("alert.end.group.transaction", null, locale);
         }
 
         model.addAttribute("msg", msg);
@@ -170,7 +174,7 @@ public class TransactionGroupController {
     @PostMapping("/group/details/{id}/group-transaction")
     public String updateGroupTransaction(@ModelAttribute(value = "groupTransaction") GroupTransaction grTransaction,
             @PathVariable(value = "id") int id,
-            Model model) throws MessagingException, UnsupportedEncodingException {
+            Model model, Locale locale) throws MessagingException, UnsupportedEncodingException {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1; // Tháng bắt đầu từ 0 nên cần cộng thêm 1
@@ -193,7 +197,7 @@ public class TransactionGroupController {
                 if (notificationMonth == null) {
                     long amountThisMonth = this.grTransactionSer.getTotalAmountMonthOfGroupTransactionsByUserId(u.getId(), "present");
                     long amountLastMonth = this.grTransactionSer.getTotalAmountMonthOfGroupTransactionsByUserId(u.getId(), "past");
-                    if (amountThisMonth - amountLastMonth > 1000000 && amountLastMonth > 0) {
+                    if (amountThisMonth - amountLastMonth > 5000000 && amountLastMonth > 0) {
                         Notification noti = new Notification();
                         noti.setMonth(month);
                         noti.setQuarter(0);
@@ -205,7 +209,9 @@ public class TransactionGroupController {
                         if (notiService.addNotification(noti)) {
                             long totalAmount = amountThisMonth - amountLastMonth;
                             String formattedPrice = currencyFormatter.format(totalAmount);
-                            this.userSer.sendMailWarning(u, "tháng này của quý khách đã vượt quá chi tiêu tháng trước (chi tiêu nhóm): " + formattedPrice + " đồng. Xin hãy thu chi cẩn thận hơn");
+                            String msg1 = messageSource.getMessage("mail.alert.group.transaction.month.msg", null, locale);
+                            String msg2 = messageSource.getMessage("mail.alert.end", null, locale);
+                            this.userSer.sendMailWarning(u, msg1 + formattedPrice + msg2);
                         }
                     }
                 } else {
@@ -213,7 +219,7 @@ public class TransactionGroupController {
                     if (notificationQuarter == null) {
                         long amountThisQuarter = this.grTransactionSer.getTotalAmountQuarterOfGroupTransactionsByUserId(u.getId(), "present");
                         long amountLastQuarter = this.grTransactionSer.getTotalAmountQuarterOfGroupTransactionsByUserId(u.getId(), "past");
-                        if (amountThisQuarter - amountLastQuarter > 5000000 && amountLastQuarter > 0) {
+                        if (amountThisQuarter - amountLastQuarter > 10000000 && amountLastQuarter > 0) {
                             Notification noti = new Notification();
                             noti.setMonth(0);
                             noti.setQuarter(quarter);
@@ -224,7 +230,9 @@ public class TransactionGroupController {
                             if (notiService.addNotification(noti)) {
                                 long totalAmount = amountThisQuarter - amountLastQuarter;
                                 String formattedPrice = currencyFormatter.format(totalAmount);
-                                this.userSer.sendMailWarning(u, "quý này của quý khách đã vượt quá chi tiêu quý trước (chi tiêu nhóm): " + formattedPrice + " đồng. Xin hãy thu chi cẩn thận hơn");
+                                String msg1 = messageSource.getMessage("mail.alert.group.transaction.quarter.msg", null, locale);
+                                String msg2 = messageSource.getMessage("mail.alert.end", null, locale);
+                                this.userSer.sendMailWarning(u, msg1 + formattedPrice + msg2);
                             }
                         }
                     }
@@ -233,7 +241,7 @@ public class TransactionGroupController {
             return "redirect:/group/details/{id}";
 
         } else {
-            msg = "Kế hoạch nhóm đã kết thúc (không thể thêm thu chi mới)";
+            msg = messageSource.getMessage("alert.end.group.transaction", null, locale);
         }
         model.addAttribute("msg", msg);
         return "redirect:/group/details/{id}/group-transaction";

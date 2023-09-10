@@ -18,6 +18,7 @@ import com.lnnd.validator.GroupExpenseValidator;
 import com.lnnd.validator.GroupTransactionAmountValidator;
 import com.lnnd.validator.GroupTransactionCreatedDateValidator;
 import com.lnnd.validator.GroupTransactionValidator;
+import com.lnnd.validator.RegisterBirthdayValidator;
 import com.lnnd.validator.RegisterConfirmPasswordValidator;
 import com.lnnd.validator.RegisterEmailValidator;
 import com.lnnd.validator.RegisterFileValidator;
@@ -138,6 +139,7 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         springValidators.add(new RegisterConfirmPasswordValidator());
         springValidators.add(new RegisterFileValidator());
         springValidators.add(new RegisterPasswordValidator());
+        springValidators.add(new RegisterBirthdayValidator());
 
         RegisterValidator v = new RegisterValidator();
         v.setSpringValidator(springValidators);

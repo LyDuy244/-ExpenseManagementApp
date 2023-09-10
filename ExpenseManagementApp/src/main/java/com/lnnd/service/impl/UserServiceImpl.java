@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
         final String subject = "Cảnh báo về các khoản thu chi";
         String senderName = "Website quản lý thu chi";
         String body = "<p>Kính gửi " + user.getFirstName() + " " + user.getLastName() + ",</p>";
-        body += "<div> Thu chi " + text + " </div>";
+        body += "<div>" + text + " </div>";
         body += "<div> Xin cảm ơn. </div>";
 
         Properties props = new Properties();

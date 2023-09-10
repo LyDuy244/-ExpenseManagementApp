@@ -100,7 +100,7 @@
                         <td style="display: flex; justify-content: space-around;">
                             <c:choose>
                                 <c:when test="${currentDate > gr.endDate}">
-                                    <a href="<c:url value="/group/details/${gr.id}/update/${trGroup.id}" />" class="btn btn-danger disabled" ><spring:message code="transaction.btn.block"/></a>
+                                    <a href="<c:url value="/group/details/${gr.id}/update/${trGroup.id}" />" class="btn btn-danger btn-alert-date disabled" ><spring:message code="transaction.btn.block"/></a>
                                 </c:when>
                                 <c:otherwise>
                                     <a href="<c:url value="/group/details/${gr.id}/update/${trGroup.id}" />" class="btn btn-success" ><spring:message code="transaction.btn.update"/></a>
@@ -163,12 +163,14 @@
                                 <td style="display: flex; justify-content: space-around;">
                                     <c:choose>
                                         <c:when test="${currentDate > gr.endDate}">
-                                            <button class="btn btn-danger" disabled><spring:message code="transaction.btn.block"/></button>
-                                        </c:when>
+                                            <button class="btn btn-danger btn-alert-date" disabled ><spring:message code="transaction.btn.block"/></button>
+                                        </c:when>               
                                         <c:otherwise>
                                             <button class="btn btn-success" ><spring:message code="transaction.btn.confirm"/></button>
                                         </c:otherwise>
                                     </c:choose>
+                                    <c:url value="/api/group-transaction/${trGroup.id}" var="apiDel"/>
+                                    <button class="btn btn-danger" onclick="delTran('${apiDel}',${trGroup.id})"><spring:message code="transaction.btn.delete"/></button>
                                 </td>
                             </tr>
                         </form:form>
@@ -192,85 +194,98 @@
             </c:if>
         </div>
     </c:if>
+
 </section>
-<script src="<c:url value="/js/main.js"/>"></script>
+
 <script>
-                                const trNoAccept = document.querySelector(".btn_transaction-noAccept");
-                                const tableNoAccept = document.querySelector(".transaction__noAccept");
+    const btnAlertDate = document.querySelectorAll(".btn-alert-date");
 
-                                const trUser = document.querySelector(".btn_transaction_user");
-                                const tableTransaction = document.querySelector(".transaction");
+    const trNoAccept = document.querySelector(".btn_transaction-noAccept");
+    const tableNoAccept = document.querySelector(".transaction__noAccept");
 
-                                const trAccept = document.querySelector(".btn_transaction-accept");
-                                const tableAccept = document.querySelector(".transaction__accept");
+    const trUser = document.querySelector(".btn_transaction_user");
+    const tableTransaction = document.querySelector(".transaction");
 
-                                const btnList = document.querySelectorAll(".btn_transaction");
+    const trAccept = document.querySelector(".btn_transaction-accept");
+    const tableAccept = document.querySelector(".transaction__accept");
 
-                                // Lấy trạng thái đã lưu trong LocalStorage (nếu có)
-                                const selectedButton = localStorage.getItem('selectedButton');
+    const btnList = document.querySelectorAll(".btn_transaction");
+
+    // Lấy trạng thái đã lưu trong LocalStorage (nếu có)
+    const selectedButton = localStorage.getItem('selectedButton');
 
     <c:if test="${loggedInUser.id == gr.ownerId.id}">
 
-                                function showTransactionNoAccept() {
-                                    tableNoAccept.classList.remove("hide");
-                                    tableAccept.classList.add("hide");
-                                    tableTransaction.classList.add("hide");
-                                    btnList.forEach(item => item.classList.remove("success"));
-                                    trNoAccept.classList.add("success");
+    function showTransactionNoAccept() {
+        tableNoAccept.classList.remove("hide");
+        tableAccept.classList.add("hide");
+        tableTransaction.classList.add("hide");
+        btnList.forEach(item => item.classList.remove("success"));
+        trNoAccept.classList.add("success");
 
-                                    // Lưu trạng thái nút đã chọn vào LocalStorage
-                                    localStorage.setItem('selectedButton', 'noAccept');
-                                }
+        // Lưu trạng thái nút đã chọn vào LocalStorage
+        localStorage.setItem('selectedButton', 'noAccept');
+    }
     </c:if>
 
-                                function showTransactionAccept() {
-                                    if (tableNoAccept != null) {
-                                        tableNoAccept.classList.add("hide");
-                                    }
-                                    tableTransaction.classList.add("hide");
-                                    tableAccept.classList.remove("hide");
-                                    btnList.forEach(item => item.classList.remove("success"));
-                                    trAccept.classList.add("success");
+    function showTransactionAccept() {
+        if (tableNoAccept != null) {
+            tableNoAccept.classList.add("hide");
+        }
+        tableTransaction.classList.add("hide");
+        tableAccept.classList.remove("hide");
+        btnList.forEach(item => item.classList.remove("success"));
+        trAccept.classList.add("success");
 
-                                    // Lưu trạng thái nút đã chọn vào LocalStorage
-                                    localStorage.setItem('selectedButton', 'accept');
-                                }
+        // Lưu trạng thái nút đã chọn vào LocalStorage
+        localStorage.setItem('selectedButton', 'accept');
+    }
 
-                                function showTransaction() {
-                                    if (tableNoAccept != null) {
-                                        tableNoAccept.classList.add("hide");
-                                    }
-                                    tableTransaction.classList.remove("hide");
-                                    tableAccept.classList.add("hide");
-                                    btnList.forEach(item => item.classList.remove("success"));
-                                    trUser.classList.add("success");
+    function showTransaction() {
+        if (tableNoAccept != null) {
+            tableNoAccept.classList.add("hide");
+        }
+        tableTransaction.classList.remove("hide");
+        tableAccept.classList.add("hide");
+        btnList.forEach(item => item.classList.remove("success"));
+        trUser.classList.add("success");
 
-                                    // Lưu trạng thái nút đã chọn vào LocalStorage
-                                    localStorage.setItem('selectedButton', 'transaction');
-                                }
+        // Lưu trạng thái nút đã chọn vào LocalStorage
+        localStorage.setItem('selectedButton', 'transaction');
+    }
 
-                                // Khôi phục trạng thái nút sau khi tải lại trang
-                                if (selectedButton === 'noAccept') {
+    // Khôi phục trạng thái nút sau khi tải lại trang
+    if (selectedButton === 'noAccept') {
     <c:if test="${loggedInUser.id == gr.ownerId.id}">
 
-                                    showTransactionNoAccept();
+        showTransactionNoAccept();
     </c:if>
-                                } else if (selectedButton === 'accept') {
-                                    showTransactionAccept();
-                                } else {
-                                    showTransaction();
-                                }
+    } else if (selectedButton === 'accept') {
+        showTransactionAccept();
+    } else {
+        showTransaction();
+    }
 
-                                // Tạo một đối tượng Intl.NumberFormat để định dạng tiền tệ
-                                var formatter = new Intl.NumberFormat('vi-VN', {
-                                    style: 'currency',
-                                    currency: 'VND'
-                                });
+    // Tạo một đối tượng Intl.NumberFormat để định dạng tiền tệ
+    var formatter = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    });
 
-                                var elements = document.getElementsByClassName('formattedAmount');
-                                for (var i = 0; i < elements.length; i++) {
-                                    var text = elements[i].textContent;
-                                    var formattedAmount = formatter.format(text);
-                                    elements[i].textContent = formattedAmount;
-                                }
+    var elements = document.getElementsByClassName('formattedAmount');
+    for (var i = 0; i < elements.length; i++) {
+        var text = elements[i].textContent;
+        var formattedAmount = formatter.format(text);
+        elements[i].textContent = formattedAmount;
+    }
+
+    for (var i = 0; i < btnAlertDate.length; i++) {
+        btnAlertDate[i].addEventListener("click", function (e) {
+            e.preventDefault();
+            alert("Bạn không thể thực hiện hành động này khi kế hoạch nhóm đã kết thúc!");
+        })
+    }
+
+
 </script>
+<script src="<c:url value="/js/main.js"/>"></script>

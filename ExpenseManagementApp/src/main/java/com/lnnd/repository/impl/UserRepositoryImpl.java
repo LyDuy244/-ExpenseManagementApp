@@ -110,13 +110,8 @@ public class UserRepositoryImpl implements UserRepository {
 
         Predicate idNotEqualPredicate = b.notEqual(root.get("id"), userId);
         Predicate isActivePredicate = b.equal(root.get("isActive"), 1);
-
-        List<String> excludedRoles = Arrays.asList("ROLE_BUSINESS", "ROLE_ADMIN", "ROLE_REPRESENTATIVE");
-        Predicate rolePredicate = b.or(
-                b.notEqual(root.get("userRole").as(String.class), excludedRoles.get(0)),
-                b.notEqual(root.get("userRole").as(String.class), excludedRoles.get(1)),
-                b.notEqual(root.get("userRole").as(String.class), excludedRoles.get(2))
-        );
+        Predicate rolePredicate = b.notEqual(root.get("userRole").as(String.class), "ROLE_ADMIN");
+                
 
         Predicate finalPredicate = b.and(idNotEqualPredicate, isActivePredicate, rolePredicate);
 
@@ -203,6 +198,8 @@ public class UserRepositoryImpl implements UserRepository {
             if (userRole != null && !userRole.isEmpty()) {
                 predicates.add(b.like(root.get("userRole"), String.format("%%%s%%", userRole)));
             }
+            
+            predicates.add(b.notEqual(root.get("userRole"), "ROLE_ADMIN"));
 
             Predicate[] predicateArray = new Predicate[predicates.size()];
             for (int i = 0; i < predicates.size(); i++) {

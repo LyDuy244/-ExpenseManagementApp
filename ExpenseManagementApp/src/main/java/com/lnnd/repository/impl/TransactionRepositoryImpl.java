@@ -153,7 +153,6 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         if (params != null) {
             String page = params.get("page");
             if (page != null && !page.isEmpty()) {
-//                int ps = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
                 int p = Integer.parseInt(page);
                 query.setMaxResults(ps);
                 query.setFirstResult((p - 1) * ps);

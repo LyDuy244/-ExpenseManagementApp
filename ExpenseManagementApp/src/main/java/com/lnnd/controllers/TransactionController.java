@@ -22,6 +22,7 @@ import java.util.Map;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,7 +53,10 @@ public class TransactionController {
 
     @Autowired
     private NotificationService notiService;
-    
+
+    @Autowired
+    private MessageSource messageSource;
+
     @Autowired
     private TransactionValidator transactionValidator;
 
@@ -89,7 +93,7 @@ public class TransactionController {
 
     @PostMapping("/transactions/add")
     public String addTransaction(@ModelAttribute(value = "transaction") @Valid Transaction t,
-            BindingResult rs,
+            BindingResult rs, Locale locale,
             @AuthenticationPrincipal MyUserDetails user
     ) throws MessagingException, UnsupportedEncodingException {
 
@@ -108,7 +112,7 @@ public class TransactionController {
                 if (notificationMonth == null) {
                     long amountThisMonth = this.tranSer.getTotalAmountMonthOfTransactionsByUserId(user.getId(), "present");
                     long amountLastMonth = this.tranSer.getTotalAmountMonthOfTransactionsByUserId(user.getId(), "past");
-                    if (amountThisMonth > amountLastMonth && amountLastMonth > 0) {
+                    if (amountThisMonth - amountLastMonth > 5000000 && amountLastMonth > 0) {
                         Notification noti = new Notification();
                         noti.setMonth(month);
                         noti.setQuarter(0);
@@ -120,7 +124,10 @@ public class TransactionController {
                         if (notiService.addNotification(noti)) {
                             long totalAmount = amountThisMonth - amountLastMonth;
                             String formattedPrice = currencyFormatter.format(totalAmount);
-                            this.userSer.sendMailWarning(u, "tháng này của quý khách đã vượt quá chi tiêu tháng trước (chi tiêu cá nhân): " + formattedPrice + " đồng. Xin hãy thu chi cẩn thận hơn");
+                            String msg1 = messageSource.getMessage("mail.alert.transaction.month.msg", null, locale);
+                            String msg2 = messageSource.getMessage("mail.alert.end", null, locale);
+
+                            this.userSer.sendMailWarning(u, msg1 + formattedPrice + msg2);
                         }
                     }
                 } else {
@@ -128,7 +135,7 @@ public class TransactionController {
                     if (notificationQuarter == null) {
                         long amountThisQuarter = this.tranSer.getTotalAmountQuarterOfTransactionsByUserId(user.getId(), "present");
                         long amountLastQuarter = this.tranSer.getTotalAmountQuarterOfTransactionsByUserId(user.getId(), "past");
-                        if (amountThisQuarter - amountLastQuarter > 5000000 && amountLastQuarter > 0) {
+                        if (amountThisQuarter - amountLastQuarter > 10000000 && amountLastQuarter > 0) {
                             Notification noti = new Notification();
                             noti.setMonth(0);
                             noti.setQuarter(quarter);
@@ -139,7 +146,9 @@ public class TransactionController {
                             if (notiService.addNotification(noti)) {
                                 long totalAmount = amountThisQuarter - amountLastQuarter;
                                 String formattedPrice = currencyFormatter.format(totalAmount);
-                                this.userSer.sendMailWarning(u, "quý này của quý khách đã vượt quá chi tiêu quý trước (chi tiêu cá nhân): " + formattedPrice + " đồng. Xin hãy thu chi cẩn thận hơn");
+                                String msg1 = messageSource.getMessage("mail.alert.transaction.quarter.msg", null, locale);
+                                String msg2 = messageSource.getMessage("mail.alert.end", null, locale);
+                                this.userSer.sendMailWarning(u, msg1 + formattedPrice + msg2);
                             }
                         }
                     }
