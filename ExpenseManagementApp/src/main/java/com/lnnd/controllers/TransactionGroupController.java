@@ -29,6 +29,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -114,7 +115,7 @@ public class TransactionGroupController {
 
     @PostMapping("/group/details/add-transaction")
     public String addGroupTransaction(Model model,
-            @ModelAttribute(value = "groupTransaction") @Valid GroupTransaction grTransaction, Locale locale,
+            @ModelAttribute(value = "groupTransaction") @Valid GroupTransaction grTransaction,
             BindingResult rs, @AuthenticationPrincipal MyUserDetails user) {
 
         GroupMember grMember = grMemberSer.getGroupMemberByUserIdAndGroupId(user.getId(), grTransaction.getGroupId().getId());
@@ -130,16 +131,17 @@ public class TransactionGroupController {
                 if (grTransaction.getId() != null) {
                     if (grTransactionSer.updateGroupTransaction(grTransaction.getId(), grTransaction) == true) {
                         return "redirect:/group/details/" + grTransaction.getGroupId().getId();
-
                     }
                 } else {
                     if (grTransactionSer.addGroupTransaction(grTransaction) == true) {
                         return "redirect:/group/details/" + grTransaction.getGroupId().getId();
                     }
                 }
+            } else {
+                System.out.println(rs);
             }
         } else {
-            msg = messageSource.getMessage("alert.end.group.transaction", null, locale);
+            msg = messageSource.getMessage("alert.end.group.transaction", null, LocaleContextHolder.getLocale());
         }
 
         model.addAttribute("msg", msg);

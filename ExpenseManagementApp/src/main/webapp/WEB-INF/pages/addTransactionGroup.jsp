@@ -24,7 +24,6 @@
             <div class="card-body">
                 <h1>
                     <spring:message code="transaction.add.title"/>
-
                 </h1>
 
                 <c:if test="${msg != null}">
