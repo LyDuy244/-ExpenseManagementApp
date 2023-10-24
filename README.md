@@ -7,24 +7,31 @@ Các phần mềm cần có:
 #### Khởi động phần mềm:
 Mở MySQL Workbench 8.0 CE:
 + Tạo mới một database với tên "expensedb"
-![Alt text](image.png)
+![image](https://github.com/LyDuy244/ExpenseManagementApp/assets/118716140/8d9d8df6-b7bb-405f-b0db-f603847eef86)
+
 + Import file database:
   + Server -> Data import -> Chọn Import from Self-Contained File -> Chọn đường dẫn đến file expensedb.sql
   + Default Target Schema -> Chọn "expensedb"
   + Start Import
-  ![Alt text](image-1.png)
+  ![image](https://github.com/LyDuy244/ExpenseManagementApp/assets/118716140/5379c1a8-7edb-48eb-aa50-c0949eb00f89)
+
   
-  + Refresh lại database và kiểm tra. Nếu xuất hiện các bảng như hình là đúng. ![Alt text](image-2.png)
+  + Refresh lại database và kiểm tra. Nếu xuất hiện các bảng như hình là đúng. 
+  ![image](https://github.com/LyDuy244/ExpenseManagementApp/assets/118716140/a7131d13-471f-40ef-ba3f-30b08857df16)
+
 #### Mở Apache NetBeans IDE 18:
 + Mở project ExpenseManagementApp
 + Mở file databases.properties và sửa username và password cho phù hợp.
-![Alt text](image-3.png)
+![image](https://github.com/LyDuy244/ExpenseManagementApp/assets/118716140/5bc5370f-6cb1-48ff-a976-cd71251b1f57)
+
 + Bấm chuột phải vào project và bấm "Build".
-![Alt text](image-6.png)
+![image](https://github.com/LyDuy244/ExpenseManagementApp/assets/118716140/00ad181b-d802-4ee0-aeb3-8a6206fb1862)
+
 + Sau khi build xong thì bấm "Run".
-![Alt text](image-4.png)
+![image](https://github.com/LyDuy244/ExpenseManagementApp/assets/118716140/b33937bd-09f1-499e-9057-ab98ca4ec1af)
+
 + Khi thấy trang web này hiện lên trang chủ thì quá trình khởi động web thành công.
-![Alt text](image-7.png)
+![image](https://github.com/LyDuy244/ExpenseManagementApp/assets/118716140/3eafa191-92fe-4837-9e40-b7f4e88e69c6)
 
 ****
 ### Các tài khoản có trong hệ thống:
