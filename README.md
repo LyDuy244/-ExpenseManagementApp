@@ -7,7 +7,7 @@ Các phần mềm cần có:
 #### Khởi động phần mềm:
 Mở MySQL Workbench 8.0 CE:
 + Tạo mới một database với tên "expensedb"
-![image](https://github.com/LyDuy244/ExpenseManagementApp/assets/118716140/8d9d8df6-b7bb-405f-b0db-f603847eef86)
+![image](https://github.com/LyDuy244/ExpenseManagementApp/assets/118716140/56b96d7e-cc23-4c14-9083-66dfb5c24f09)
 
 + Import file database:
   + Server -> Data import -> Chọn Import from Self-Contained File -> Chọn đường dẫn đến file expensedb.sql
